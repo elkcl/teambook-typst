@@ -1,0 +1,18 @@
+{
+    "title": "Team Reference Document",
+    "team": "The Meanwhiles",
+    "university": "Moscow State University",
+    "members": [
+        "Ilia Denisev",
+        "Grigorii Bazilevich",
+        "Vladimir Yakunin"
+    ],
+    "date": {
+        "year": 2025,
+        "month": 10,
+        "day": 19
+    },
+    "template_file": "main.typ",
+    "content_dir": "content",
+    "output_file": "notebook.pdf"
+}

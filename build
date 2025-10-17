@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+set -e
+
+if ! command -v "typst" >/dev/null 2>&1; then
+    echo "typst is not installed"
+    exit 1
+fi
+
+if ! command -v "jq" >/dev/null 2>&1; then
+    echo "jq is not installed"
+    exit 1
+fi
+
+if ! command -v "find" >/dev/null 2>&1; then
+    echo "find is not installed"
+    exit 1
+fi
+
+if [ $# -eq 0 ]; then
+    echo "Not enough arguments supplied"
+    echo "Usage: $0 <config.json>"
+    exit 1
+fi
+
+if [ ! -f "$1" ]; then
+    echo "Config file not found"
+    exit 1
+fi
+
+TEMPLATE_FILE=$(jq -r '.template_file' "$1")
+CONTENT_DIR=$(jq -r '.content_dir' "$1")
+OUTPUT_FILE=$(jq -r '.output_file' "$1")
+FILES=$(find "$CONTENT_DIR" -type f | cut -sd / -f 2-)
+
+typst compile --input config_file="$1" --input content_dir="$CONTENT_DIR" --input files="$FILES" "$TEMPLATE_FILE" "$OUTPUT_FILE"

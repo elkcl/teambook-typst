@@ -1,0 +1,7 @@
+$ax + by = c$
+
+$ax' + by' = d$
+
+$\begin{cases}x_{0} = x '\cdot\frac{c}{d}\\ y_{0}=y'\cdot\frac{c}{ d }\end{cases}$
+
+$\begin{cases}x = x_{0} + k\cdot\frac{b}{ d }\ y = y_{0} - k\cdot\frac{a}{ d }\end{cases}$
