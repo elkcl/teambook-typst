@@ -296,7 +296,9 @@ bool ConvexPolygon::contains(Point p) const {
   ld pa = angle(vs[1] - vs[0], p - vs[0]);
   auto it = upper_bound(angles.begin(),
                         angles.end(), pa);
-  if (it == angles.begin()) return false;
+  if (it == angles.begin()) {
+    return false;
+  }
   if (it == angles.end()) {
     return Segment{vs[0], *(vs.end() - 1)}
         .contains(p);
@@ -320,8 +322,8 @@ bool operator==(Circle c1, Circle c2) {
   return c1.o == c2.o && c1.r == c2.r;
 }
 
-pair<pair<Point, Point>, int> operator^(
-    Line l, Circle c) {
+pair<pair<Point, Point>, int>
+operator^(Line l, Circle c) {
   ld rho = distance(c.o, l);
   if (rho > c.r + EPS) {
     return {{c.o, c.o}, 0};
@@ -336,8 +338,8 @@ pair<pair<Point, Point>, int> operator^(
   }
 }
 
-pair<pair<Point, Point>, int> operator^(
-    Circle c1, Circle c2) {
+pair<pair<Point, Point>, int>
+operator^(Circle c1, Circle c2) {
   ld rho = distance(c1.o, c2.o);
   if (c1 == c2) {
     return {{c1.o, c1.o}, 3};

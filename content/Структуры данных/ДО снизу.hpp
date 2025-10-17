@@ -3,7 +3,7 @@
 vector<long long> tree;
 int n;
 
-void build(const vector<int>& arr) {
+void build(const vector<int> &arr) {
   n = arr.size();
   tree.assign(2 * n, 0);
   for (int i = 0; i < n; i++) {
@@ -15,7 +15,7 @@ void build(const vector<int>& arr) {
 }
 
 void update_point(
-    int pos, int newval) {  // arr[pos] := newval
+    int pos, int newval) { // arr[pos] := newval
   pos += n;
   tree[pos] = newval;
   pos >>= 1;
@@ -26,7 +26,7 @@ void update_point(
   }
 }
 
-long long find_sum(int l, int r) {  // [l, r)
+long long find_sum(int l, int r) { // [l, r)
   l += n;
   r += n;
   long long ans = 0;

@@ -24,8 +24,9 @@ struct SuffixAutomaton {
     nodes.emplace_back(0, last);
     int p = last;
     for (; p != -1 && nodes[p].nx[x] == -1;
-         p = nodes[p].suf)
+         p = nodes[p].suf) {
       nodes[p].nx[x] = cur;
+    }
     if (p != -1) {
       int q = nodes[p].nx[x];
       if (nodes[q].par == p) {
@@ -36,8 +37,9 @@ struct SuffixAutomaton {
         nodes[u].par = p;
         nodes[q].suf = nodes[cur].suf = u;
         for (; p != -1 && nodes[p].nx[x] == q;
-             p = nodes[p].suf)
+             p = nodes[p].suf) {
           nodes[p].nx[x] = u;
+        }
       }
     }
     return last = nodes[nodes[cur].par].nx[x];

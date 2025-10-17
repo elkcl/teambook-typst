@@ -4,9 +4,9 @@ void dfs(int v, int p = -1) {
   int children = 0;
   for (int u : g[v]) {
     if (u != p) {
-      if (used[u])
+      if (used[u]) {
         d[v] = min(d[v], h[u]);
-      else {
+      } else {
         dfs(u, v);
         d[v] = min(d[v], d[u]);
         if (h[v] <= d[u] && p != -1) {

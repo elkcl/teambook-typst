@@ -3,7 +3,7 @@ using ll = long long;
 struct Edge {
   int u;
   ll f, c;
-  Edge* rev;
+  Edge *rev;
 
   Edge(int u_, ll f_, ll c_) {
     u = u_;
@@ -18,7 +18,7 @@ const int MAXN = 1000;
 const ll INF = 1e18;
 
 int n, m, s, f;
-vector<Edge*> g[MAXN];
+vector<Edge *> g[MAXN];
 vector<ll> d(MAXN), p(MAXN);
 
 bool bfs() {
@@ -64,10 +64,10 @@ int dfs(int v, ll min_flow = INF) {
   return 0;
 }
 
-vector<Edge*> edges;
+vector<Edge *> edges;
 void addEdge(int v, int u, ll w = 0) {
-  Edge* normal = new Edge(u, 0, w);
-  Edge* rev = new Edge(v, 0, 0);
+  Edge *normal = new Edge(u, 0, w);
+  Edge *rev = new Edge(v, 0, 0);
 
   normal->rev = rev;
   rev->rev = normal;

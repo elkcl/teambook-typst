@@ -4,7 +4,7 @@ struct Edge {
   int v, u;
   ll f, c;
   ll w;
-  Edge* rev;
+  Edge *rev;
 
   Edge(int v_, int u_, ll f_, ll c_, ll w_) {
     v = v_;
@@ -22,12 +22,12 @@ const ll INF = 1e18;
 
 ll ans = 0;
 int n, m, s, f;
-vector<Edge*> edges, p(MAXN);
+vector<Edge *> edges, p(MAXN);
 vector<ll> d(MAXN);
 
 void addEdge(int v, int u, ll c = 0, ll w = 0) {
-  Edge* normal = new Edge(v, u, 0, c, w);
-  Edge* rev = new Edge(u, v, 0, 0, -w);
+  Edge *normal = new Edge(v, u, 0, c, w);
+  Edge *rev = new Edge(u, v, 0, 0, -w);
 
   normal->rev = rev;
   rev->rev = normal;
@@ -57,7 +57,7 @@ ll ford_bellman() {
     return 0;
   }
 
-  Edge* e = p[f];
+  Edge *e = p[f];
   while (e != nullptr) {
     e->f += flow;
     e->rev->f -= flow;

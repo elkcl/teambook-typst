@@ -48,7 +48,7 @@
       let path = pref.join("/") + "/" + filename
       let ext = filename.split(".").at(-1)
       let basename = filename.split(".").slice(0, -1).join(".")
-      ans.push(heading(basename, depth: depth))
+      ans.push(heading(eval(basename, mode: "markup"), depth: depth))
       if ext in languages {
         ans.push(raw(read(path), lang: languages.at(ext)))
       } else if ext == "typ" {
@@ -56,12 +56,12 @@
       } else if ext == "tex" {
         ans.push(mitext(read(path)))
       } else if ext == "txt" {
-        ans.push(par(read(path)))
+        ans.push(raw(read(path)))
       }
     } else {
       let groupname = group.at(0).at(0)
       pref.push(groupname)
-      ans.push(heading(groupname, depth: depth))
+      ans.push(heading(eval(groupname, mode: "markup"), depth: depth))
       for i in range(group.len()) {
         group.at(i).remove(0)
       }
@@ -95,7 +95,7 @@
   },
 )
 #set text(font: "Libertinus Serif", lang: "ru", region: "ru", size: 11pt)
-#show raw: set text(font: "FantasqueSansM Nerd Font Mono", size: 10pt)
+#show raw: set text(font: "FantasqueSansM Nerd Font Mono", size: 9pt)
 #set heading(numbering: "1.1")
 #show outline.entry.where(level: 1): set text(weight: "bold")
 

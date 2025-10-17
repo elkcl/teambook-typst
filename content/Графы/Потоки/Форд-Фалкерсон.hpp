@@ -3,7 +3,7 @@ using namespace std;
 
 struct Edge {
   int u, f, c;
-  Edge* rev;
+  Edge *rev;
 
   Edge(int u_, int f_, int c_) {
     u = u_;
@@ -17,7 +17,7 @@ struct Edge {
 const int MAXN = 1e5 + 10;
 
 int n, m, s, f;
-vector<Edge*> g[MAXN];
+vector<Edge *> g[MAXN];
 vector<bool> used(MAXN);
 vector<int> path;
 
@@ -51,7 +51,7 @@ int32_t main() {
 
   s = 0;
   f = n - 1;
-  vector<Edge*> edges;
+  vector<Edge *> edges;
   for (int i = 0; i < m; i++) {
     int v, u, w;
     cin >> v >> u >> w;
@@ -63,8 +63,8 @@ int32_t main() {
       continue;
     }
 
-    Edge* normal = new Edge(u, 0, w);
-    Edge* rev = new Edge(v, 0, w);
+    Edge *normal = new Edge(u, 0, w);
+    Edge *rev = new Edge(v, 0, w);
 
     normal->rev = rev;
     rev->rev = normal;

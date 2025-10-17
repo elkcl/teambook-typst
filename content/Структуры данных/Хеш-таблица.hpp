@@ -10,14 +10,18 @@ struct HashMap {
   int position(uint64_t key) const {
     uint64_t h = hash(key);
     int i = h % n;
-    while (keys[i] != -1 && keys[i] != key)
-      if (++i == n) i = 0;
+    while (keys[i] != -1 && keys[i] != key) {
+      if (++i == n) {
+        i = 0;
+      }
+    }
     return i;
   }
-  int& operator[](uint64_t key) {
+  int &operator[](uint64_t key) {
     int i = position(key);
-    if (keys[i] == -1)
+    if (keys[i] == -1) {
       keys[i] = key, values[i] = -1;
+    }
     return values[i];
   }
 };

@@ -56,9 +56,15 @@ struct segtree {
 
   ll get(int ql, int qr, int v = 1, int l = 0,
          int r = -1) {
-    if (r == -1) r = n;
-    if (qr <= l || r <= ql) return 0;
-    if (ql <= l && r <= qr) return fresh(v, l, r);
+    if (r == -1) {
+      r = n;
+    }
+    if (qr <= l || r <= ql) {
+      return 0;
+    }
+    if (ql <= l && r <= qr) {
+      return fresh(v, l, r);
+    }
 
     push(v, l, r);
     int m = (l + r) / 2;
@@ -69,8 +75,12 @@ struct segtree {
 
   void upd(int ql, int qr, int k, int b,
            int v = 1, int l = 0, int r = -1) {
-    if (r == -1) r = n;
-    if (qr <= l || r <= ql) return;
+    if (r == -1) {
+      r = n;
+    }
+    if (qr <= l || r <= ql) {
+      return;
+    }
     if (ql <= l && r <= qr) {
       aff[v].k *= k;
       aff[v].b *= k;

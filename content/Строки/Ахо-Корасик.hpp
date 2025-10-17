@@ -7,7 +7,9 @@ struct query {
 };
 
 bool operator<(const query &a, const query &b) {
-  if (a.l == b.l) return a.r < b.r;
+  if (a.l == b.l) {
+    return a.r < b.r;
+  }
   return a.l < b.l;
 }
 
@@ -28,7 +30,9 @@ struct Trie {
 
   Trie(const vector<string> &vec) {
     create(-1, -1);
-    for (auto &s : vec) insert(s);
+    for (auto &s : vec) {
+      insert(s);
+    }
     build();
   }
 
@@ -52,40 +56,45 @@ struct Trie {
       return;
     }
     int c = s[pos] - OFF;
-    if (t[v].next[c] == -1)
+    if (t[v].next[c] == -1) {
       t[v].next[c] = create(v, c);
+    }
     insert(s, pos + 1, t[v].next[c]);
   }
 
   void build() {
     deque<int> q;
     for (int i = 0; i < ALPHA; ++i) {
-      if (t[0].next[i] == -1)
+      if (t[0].next[i] == -1) {
         t[0].next[i] = 0;
-      else
+      } else {
         q.push_back(t[0].next[i]);
+      }
     }
     t[0].link = 0;
 
     while (!q.empty()) {
       int v = q.front();
       q.pop_front();
-      if (t[v].p == 0)
+      if (t[v].p == 0) {
         t[v].link = 0;
-      else
+      } else {
         t[v].link =
             t[t[t[v].p].link].next[t[v].pchar];
-      if (t[t[v].link].term)
+      }
+      if (t[t[v].link].term) {
         t[v].zip = t[v].link;
-      else if (t[v].link == 0)
+      } else if (t[v].link == 0) {
         t[v].zip = -1;
-      else
+      } else {
         t[v].zip = t[t[v].link].zip;
+      }
       for (int i = 0; i < ALPHA; ++i) {
-        if (t[v].next[i] == -1)
+        if (t[v].next[i] == -1) {
           t[v].next[i] = t[t[v].link].next[i];
-        else
+        } else {
           q.push_back(t[v].next[i]);
+        }
       }
     }
   }
@@ -101,7 +110,9 @@ void dfs(vector<vertex> &g, vi &tin, vi &tout,
   tin[v] = t++;
   g[v].d = d;
   for (int to : g[v].e) {
-    if (to == p) continue;
+    if (to == p) {
+      continue;
+    }
     dfs(g, tin, tout, t, to, v, d + 1);
   }
   tout[v] = t;
@@ -132,8 +143,9 @@ int32_t main() {
   for (int i = len - 1; i >= 0; --i) {
     int ln = -1;
     int currv = v[i];
-    if (trie.t[currv].term)
+    if (trie.t[currv].term) {
       ln = trie.t[currv].len;
+    }
     if (ln == -1 && trie.t[currv].zip != -1) {
       currv = trie.t[currv].zip;
       ln = trie.t[currv].len;
@@ -145,13 +157,15 @@ int32_t main() {
   vi tin(len + 1, -1), tout(len + 1, -1);
   int t = 0;
   for (int root = len; root >= 0; --root) {
-    if (tin[root] == -1)
+    if (tin[root] == -1) {
       dfs(g, tin, tout, t, root, -1, 0);
+    }
   }
 
   auto anc = [&tin, &tout](int u, int v) -> bool {
-    if (tin[u] == -1 || tin[v] == -1)
+    if (tin[u] == -1 || tin[v] == -1) {
       return false;
+    }
     return tin[u] <= tin[v] && tin[v] < tout[u];
   };
 
@@ -161,10 +175,11 @@ int32_t main() {
     int l, r;
     cin >> l >> r;
     --l;
-    if (!anc(l, r) && !anc(r, l))
+    if (!anc(l, r) && !anc(r, l)) {
       cout << "-1\n";
-    else
+    } else {
       cout << abs(g[l].d - g[r].d) << '\n';
+    }
   }
 
   int k;

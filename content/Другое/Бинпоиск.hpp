@@ -3,7 +3,7 @@
 // Вернёт r, если f(x) = true на всём
 // полуинтервале
 template <typename F>
-int bin_search(int l, int r, const F& f) {
+int bin_search(int l, int r, const F &f) {
   --l;
   while (r - l > 1) {
     int m = l + (r - l) / 2;
