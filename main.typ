@@ -15,7 +15,7 @@
 #let content_dir = sys.inputs.content_dir
 #let files = sys.inputs.files.split("\n").map(it => it.split("/"))
 
-#let group_by(arr, f) = if arr == () { (()) } else {
+#let group_by(arr, f) = if arr == () { () } else {
   let state = f(arr.at(0))
   let result = ((arr.at(0),),)
   for v in arr.slice(1, arr.len()) {
@@ -36,7 +36,7 @@
   h: "c",
   py: "python",
   java: "java",
-  kt: "kotlin"
+  kt: "kotlin",
 )
 
 #let generate_content(files, depth, pref) = {
@@ -81,16 +81,18 @@
   columns: 3,
   header: context {
     let pg = counter(page).get().first()
-    if pg != 1 [
-      #{university + " (" + members.map(it => it.split().at(-1)).join(", ") + ")"}
-      #h(1fr)
-      #pg
-    ]
+    if pg != 1 {
+      align(horizon)[
+        #{ university + " (" + members.map(it => it.split().at(-1)).join(", ") + ")" }
+        #h(1fr)
+        #pg
+      ]
+    }
   },
   footer: context {
     let pg = counter(page).get().first()
     if pg == 1 {
-      align(center, str(pg))
+      align(horizon + center, str(pg))
     }
   },
 )
