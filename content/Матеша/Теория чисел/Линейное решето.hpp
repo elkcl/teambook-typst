@@ -1,7 +1,6 @@
 const int N = 10000000;
 int lp[N + 1];  // минимальный простой делитель
 vector<int> pr; // простые числа
-
 for (int i = 2; i <= N; ++i) {
   if (lp[i] == 0) {
     lp[i] = i;

@@ -7,11 +7,10 @@ int bin_search(int l, int r, const F &f) {
   --l;
   while (r - l > 1) {
     int m = l + (r - l) / 2;
-    if (f(m)) {
+    if (f(m))
       l = m;
-    } else {
+    else
       r = m;
-    }
   }
   return r;
 }

@@ -1,7 +1,5 @@
 const ld EPS = 1e-10;
-
 int sgn(ld val) { return (0 < val) - (val < 0); }
-
 struct Point {
   ld x;
   ld y;
@@ -9,60 +7,46 @@ struct Point {
   Point norm() const;
   Point rotate(ld a) const;
 };
-
 Point operator+(Point a, Point b) {
   return {a.x + b.x, a.y + b.y};
 }
-
 Point operator-(Point a, Point b) {
   return {a.x - b.x, a.y - b.y};
 }
-
 Point operator*(Point a, ld k) {
   return {a.x * k, a.y * k};
 }
-
 Point operator*(ld k, Point a) {
   return {a.x * k, a.y * k};
 }
-
 Point operator/(Point a, ld k) {
   return {a.x / k, a.y / k};
 }
-
 ld operator*(Point a, Point b) {
   return a.x * b.x + a.y * b.y;
 }
-
 ld operator%(Point a, Point b) {
   return a.x * b.y - a.y * b.x;
 }
-
 bool operator==(Point a, Point b) {
   return a.x == b.x && a.y == b.y;
 }
-
 ld angle(Point a, Point b) {
   return atan2(a % b, a * b);
 }
-
 ld Point::absv() const {
   return sqrt((*this) * (*this));
 }
-
 Point Point::norm() const {
   return (*this) / this->absv();
 }
-
 Point Point::rotate(ld a) const {
   return {cos(a) * x - sin(a) * y,
           sin(a) * x + cos(a) * y};
 }
-
 ld distance(Point p1, Point p2) {
   return (p2 - p1).absv();
 }
-
 struct Line {
   Point n{};
   Point p{};
@@ -72,33 +56,27 @@ struct Line {
   }
   Line(ld a, ld b, ld c) {
     n = Point{-b, a}.norm();
-    if (b == 0) {
+    if (b == 0)
       p = {-c / a, 0};
-    } else {
+    else
       p = {0, -c / b};
-    }
   }
   bool contains(Point a) const;
   int halfPlane(Point p1) const;
 };
-
 Point perp(Point p, Line l) {
   Point v = l.p - p;
   return v - (l.n * v) * l.n;
 }
-
 bool Line::contains(Point a) const {
   return abs((p - a) % n) < EPS;
 }
-
 bool operator||(Line a, Line b) {
   return abs(a.n % b.n) < EPS;
 }
-
 bool operator==(Line a, Line b) {
   return a.contains(b.p) && (a || b);
 }
-
 pair<Point, int> operator^(Line a, Line b) {
   if (a == b) {
     return {a.p, 2};
@@ -115,15 +93,12 @@ pair<Point, int> operator^(Line a, Line b) {
     return {{x, y}, 1};
   }
 }
-
 int Line::halfPlane(Point p1) const {
   return sgn(n % (p1 - p));
 }
-
 ld distance(Point p, Line l) {
   return perp(p, l).absv();
 }
-
 struct Segment {
   Point a;
   Point b;
@@ -132,12 +107,10 @@ struct Segment {
       : a{p1}, b{p2}, l{p1, p2} {}
   bool contains(Point p) const;
 };
-
 bool Segment::contains(Point p) const {
   return l.contains(p) &&
          (a - p) * (b - p) <= EPS;
 }
-
 ld distance(Point p, Segment s) {
   Point pe = perp(p, s.l);
   if (s.contains(pe + p)) {
@@ -147,7 +120,6 @@ ld distance(Point p, Segment s) {
                (s.b - p).absv());
   }
 }
-
 struct Ray {
   Point a;
   Point b;
@@ -156,31 +128,25 @@ struct Ray {
       : a{p1}, b{p2}, l{p1, p2} {}
   bool contains(Point p) const;
 };
-
 bool Ray::contains(Point p) const {
   return l.contains(p) &&
          ((a - p) * (b - p) <= EPS ||
           (a - b) * (p - b) <= EPS);
 }
-
 ld distance(Point p, Ray r) {
   Point pe = perp(p, r.l);
-  if (r.contains(pe + p)) {
+  if (r.contains(pe + p))
     return pe.absv();
-  } else {
+  else
     return (r.a - p).absv();
-  }
 }
-
 ld distance(Line l1, Line l2) {
   int res = (l1 ^ l2).second;
-  if (res == 1 || res == 2) {
+  if (res == 1 || res == 2)
     return 0;
-  } else {
+  else
     return distance(l1.p, l2);
-  }
 }
-
 ld distance(Ray r, Line l) {
   auto inter = r.l ^ l;
   if (inter.second == 2 ||
@@ -191,7 +157,6 @@ ld distance(Ray r, Line l) {
     return distance(r.a, l);
   }
 }
-
 ld distance(Segment s, Line l) {
   auto inter = s.l ^ l;
   if (inter.second == 2 ||
@@ -203,15 +168,13 @@ ld distance(Segment s, Line l) {
                distance(s.b, l));
   }
 }
-
 ld distance(Ray r1, Ray r2) {
   auto inter = r1.l ^ r2.l;
   if (inter.second == 2) {
-    if (r1.contains(r2.a) || r2.contains(r1.a)) {
+    if (r1.contains(r2.a) || r2.contains(r1.a))
       return 0;
-    } else {
+    else
       return distance(r1.a, r2.a);
-    }
   } else if (inter.second == 1 &&
              r1.contains(inter.first) &&
              r2.contains(inter.first)) {
@@ -221,7 +184,6 @@ ld distance(Ray r1, Ray r2) {
                distance(r2.a, r1));
   }
 }
-
 ld distance(Segment s, Ray r) {
   auto inter = s.l ^ r.l;
   if (inter.second == 2) {
@@ -241,7 +203,6 @@ ld distance(Segment s, Ray r) {
         distance(r.a, s));
   }
 }
-
 ld distance(Segment s1, Segment s2) {
   auto inter = s1.l ^ s2.l;
   if (inter.second == 2) {
@@ -263,21 +224,18 @@ ld distance(Segment s1, Segment s2) {
                    distance(s2.b, s1)));
   }
 }
-
 struct Triangle {
   Point a;
   Point b;
   Point c;
   bool contains(Point p) const;
 };
-
 bool Triangle::contains(Point p) const {
   ld p1 = (b - a) % (p - a);
   ld p2 = (c - b) % (p - b);
   ld p3 = (a - c) % (p - c);
   return p1 >= -EPS && p2 >= -EPS && p3 >= -EPS;
 }
-
 struct ConvexPolygon {
   vector<Point> vs;
   vector<ld> angles;
@@ -285,20 +243,17 @@ struct ConvexPolygon {
     angles.resize(vs.size());
     angles[0] = angles[1] = 0;
     Point base = vs[1] - vs[0];
-    for (int i = 2; i < vs.size(); ++i) {
+    for (int i = 2; i < vs.size(); ++i)
       angles[i] = angle(base, vs[i] - vs[0]);
-    }
   }
   bool contains(Point p) const;
 };
-
 bool ConvexPolygon::contains(Point p) const {
   ld pa = angle(vs[1] - vs[0], p - vs[0]);
   auto it = upper_bound(angles.begin(),
                         angles.end(), pa);
-  if (it == angles.begin()) {
+  if (it == angles.begin())
     return false;
-  }
   if (it == angles.end()) {
     return Segment{vs[0], *(vs.end() - 1)}
         .contains(p);
@@ -307,21 +262,17 @@ bool ConvexPolygon::contains(Point p) const {
   return Triangle{vs[0], vs[ind - 1], vs[ind]}
       .contains(p);
 }
-
 struct Circle {
   Point o;
   ld r;
   bool contains(Point p) const;
 };
-
 bool Circle::contains(Point p) const {
   return distance(p, o) <= r + EPS;
 }
-
 bool operator==(Circle c1, Circle c2) {
   return c1.o == c2.o && c1.r == c2.r;
 }
-
 pair<pair<Point, Point>, int>
 operator^(Line l, Circle c) {
   ld rho = distance(c.o, l);
@@ -337,7 +288,6 @@ operator^(Line l, Circle c) {
     return {{p + l.n * d, p - l.n * d}, 2};
   }
 }
-
 pair<pair<Point, Point>, int>
 operator^(Circle c1, Circle c2) {
   ld rho = distance(c1.o, c2.o);
@@ -375,34 +325,29 @@ operator^(Circle c1, Circle c2) {
                c2.o + p.rotate(-a)},
               2};
     }
+  } else if (c1.r + c2.r - rho < EPS) {
+    return {{c1.o, c1.o}, 0};
+  } else if (abs(c1.r + c2.r - rho) < EPS) {
+    Point p = c1.o + (c2.o - c1.o).norm() * c1.r;
+    return {{p, p}, 1};
   } else {
-    if (c1.r + c2.r - rho < EPS) {
-      return {{c1.o, c1.o}, 0};
-    } else if (abs(c1.r + c2.r - rho) < EPS) {
-      Point p =
-          c1.o + (c2.o - c1.o).norm() * c1.r;
-      return {{p, p}, 1};
-    } else {
-      ld a = acos((c1.r * c1.r + rho * rho -
-                   c2.r * c2.r) /
-                  (2 * c1.r * rho));
-      Point p = (c2.o - c1.o).norm() * c1.r;
-      return {{c1.o + p.rotate(a),
-               c1.o + p.rotate(-a)},
-              2};
-    }
+    ld a = acos(
+        (c1.r * c1.r + rho * rho - c2.r * c2.r) /
+        (2 * c1.r * rho));
+    Point p = (c2.o - c1.o).norm() * c1.r;
+    return {
+        {c1.o + p.rotate(a), c1.o + p.rotate(-a)},
+        2};
   }
 }
-
 pair<pair<Point, Point>, int> tangents(Point p,
                                        Circle c) {
   ld rho = distance(p, c.o);
   if (c.contains(p)) {
-    if (abs(rho - c.r) < EPS) {
+    if (abs(rho - c.r) < EPS)
       return {{p, p}, 1};
-    } else {
+    else
       return {{p, p}, 0};
-    }
   } else {
     ld d = sqrt(rho * rho - c.r * c.r);
     return Circle{p, d} ^ c;

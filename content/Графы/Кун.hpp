@@ -3,9 +3,8 @@ vi used(k, 0);
 int curr = 1;
 auto dfs = [&g, &used, &lr, &rl, &curr](
                const auto &rec, int v) -> bool {
-  if (used[v] == curr) {
+  if (used[v] == curr)
     return false;
-  }
   used[v] = curr;
   for (int to : g[v]) {
     if (rl[to] == -1 || rec(rec, rl[to])) {

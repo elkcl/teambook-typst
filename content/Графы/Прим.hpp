@@ -3,9 +3,7 @@ bool used[maxn];
 vector<pair<int, int>> g[maxn];
 int min_edge[maxn] = {inf}, best_edge[maxn];
 min_edge[0] = 0;
-
 // ...
-
 for (int i = 0; i < n; i++) {
   int v = -1;
   for (int u = 0; u < n; u++) {
@@ -14,12 +12,9 @@ for (int i = 0; i < n; i++) {
       v = u;
     }
   }
-
   used[v] = 1;
-  if (v != 0) {
+  if (v != 0)
     cout << v << " " << best_edge[v] << endl;
-  }
-
   for (auto e : g[v]) {
     int u = e.first, w = e.second;
     if (w < min_edge[u]) {

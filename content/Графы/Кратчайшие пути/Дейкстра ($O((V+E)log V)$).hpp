@@ -11,9 +11,8 @@ vector<int> dijkstra(int s) {
   while (!q.empty()) {
     auto [cur_d, v] = q.top();
     q.pop();
-    if (cur_d > d[v]) {
+    if (cur_d > d[v])
       continue;
-    }
     for (auto [u, w] : g[v]) {
       if (d[u] > d[v] + w) {
         d[u] = d[v] + w;

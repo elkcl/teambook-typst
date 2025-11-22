@@ -6,12 +6,20 @@ UseTab: Never
 SortIncludes: Never
 SpaceAfterCStyleCast: true
 IndentCaseLabels: false
-InsertBraces: true
+InsertBraces: false
+RemoveBracesLLVM: true
+RemoveEmptyLinesInUnwrappedLines: true
+SeparateDefinitionBlocks: Never
+KeepEmptyLines:
+  AtEndOfFile: false
+  AtStartOfBlock: false
+  AtStartOfFile: false
+MaxEmptyLinesToKeep: 0
 InsertNewlineAtEOF: true
 IndentGotoLabels: false
 # AlwaysBreakAfterReturnType: AllDefinitions
 AllowShortEnumsOnASingleLine: true
-# BreakBeforeBraces: Custom
+BreakBeforeBraces: Attach
 # BraceWrapping:
 #   AfterCaseLabel:  false
 #   AfterClass:      true

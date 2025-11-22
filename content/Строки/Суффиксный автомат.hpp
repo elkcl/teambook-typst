@@ -6,7 +6,6 @@
 //  Строится побуквенно, поддерживает построение
 //  от нескольких строк.
 //
-
 struct SuffixAutomaton {
   struct Node {
     int suf = -1, par = -1, nx[26];

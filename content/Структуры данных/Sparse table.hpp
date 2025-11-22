@@ -7,20 +7,16 @@ for (int i = 2; i <= n; ++i) {
     ++logs[i];
   }
 }
-
 vvi sp(n, vi(logs[n] + 1, INF));
-for (int i = 0; i < n; ++i) {
+for (int i = 0; i < n; ++i)
   sp[i][0] = a[i];
-}
 for (int l = 1; l < logs[n] + 1; ++l) {
   for (int i = 0; i < n; ++i) {
-    if (i + (1 << (l - 1)) >= n) {
+    if (i + (1 << (l - 1)) >= n)
       break;
-    }
     sp[i][l] = min(sp[i][l - 1],
                    sp[i + (1 << (l - 1))][l - 1]);
   }
-
   while (q--) {
     int l, r;
     cin >> l >> r;

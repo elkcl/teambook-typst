@@ -11,9 +11,8 @@ for (int i = 1; i < n; ++i) {
 }
 kp[n] = mod((kp[n - 1] * k), m);
 auto ss1 = [&h1, &kp, m](int l, int r) -> ll {
-  if (l == 0) {
+  if (l == 0)
     return h1[r];
-  }
   return mod((h1[r] - h1[l - 1] * kp[r - l + 1]),
              m);
 };
