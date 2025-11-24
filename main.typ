@@ -97,7 +97,7 @@
   },
 )
 #set text(font: "Libertinus Serif", lang: "ru", region: "ru", size: 11pt)
-#show raw: set text(font: "FantasqueSansM Nerd Font Mono", size: 9pt)
+#show raw: set text(font: "FantasqueSansM Nerd Font Mono", size: 9pt, ligatures: false, features: ("calt": 0))
 #set heading(numbering: "1.1")
 #show outline.entry.where(level: 1): set text(weight: "bold")
 
@@ -118,5 +118,6 @@
 )
 
 #outline(depth: 5, indent: auto)
+
 
 #generate_content(files, 1, (content_dir,))
