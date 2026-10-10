@@ -9,7 +9,7 @@ for (int dist = 0; dist < maxd; dist++) {
     if (d[v] > dist)
       continue;
     for (auto [u, w] : g[v]) {
-      if (d[u] < d[v] + w) {
+      if (d[u] > d[v] + w) {
         d[u] = d[v] + w;
         q[d[u]].push(u);
       }
