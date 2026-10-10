@@ -1,5 +1,5 @@
-#import "@preview/datify:1.0.0": *
-#import "@preview/mitex:0.2.5": *
+#import "@preview/datify:1.3.0": *
+#import "@preview/mitex:0.2.7": *
 
 #let config = json(sys.inputs.config_file)
 #let title = config.title
