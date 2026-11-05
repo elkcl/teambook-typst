@@ -76,7 +76,7 @@ if [ "$MODE" = "tour" ]; then
     WORK_CONTENT=.build/tour
 fi
 
-FILES=$(cd "$WORK_CONTENT" && find . -type f | sed 's|^\./||')
+FILES=$(cd "$WORK_CONTENT" && find . -type f | sed 's|^\./||' | sort -V)
 
 typst compile \
     --input config_file="$CONFIG" \
