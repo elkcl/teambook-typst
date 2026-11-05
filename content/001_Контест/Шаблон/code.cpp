@@ -6,6 +6,12 @@
 #pragma GCC optimize("unroll-loops")
 #endif
 #include "preamble.hpp"
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
+template <typename T>
+using OrderedSet =
+    tree<T, null_type, less<>, rb_tree_tag, tree_order_statistics_node_update>;
 
 template <typename T> istream &operator>>(istream &s, vector<T> &v) {
     for (auto &&el : v) {
