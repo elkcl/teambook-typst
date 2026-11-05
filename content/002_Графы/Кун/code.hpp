@@ -1,28 +1,31 @@
-vi lr(k, -1), rl(n, -1);
-vi used(k, 0);
-int curr = 1;
-auto dfs = [&g, &used, &lr, &rl, &curr](const auto &rec, int v) -> bool {
-    if (used[v] == curr) {
+#include "preamble.hpp"
+
+bool kuhn_dfs(vvi &g, vi &iteration, vi &lr, vi &rl, int curr, int v) {
+    if (iteration[v] == curr) {
         return false;
     }
-    used[v] = curr;
+    iteration[v] = curr;
     for (int to : g[v]) {
-        if (rl[to] == -1 || rec(rec, rl[to])) {
+        if (rl[to] == -1 || kuhn_dfs(g, iteration, lr, rl, curr, rl[to])) {
             rl[to] = v;
             lr[v] = to;
             return true;
         }
     }
     return false;
-};
-ll ans = 0;
-for (bool run = true; run;) {
-    run = false;
-    ++curr;
+}
+
+vpii get_matching(vvi &g, int k, int n) {
+    vpii matching;
+    vi lr(k, -1), rl(n, -1);
+    vi iteration(k, 0);
     for (int i = 0; i < k; ++i) {
-        if (lr[i] == -1 && dfs(dfs, i)) {
-            run = true;
-            ++ans;
+        kuhn_dfs(g, iteration, lr, rl, i + 1, i);
+    }
+    for (int i = 0; i < k; ++i) {
+        if (lr[i] != -1) {
+            matching.emplace_back(i, lr[i]);
         }
     }
+    return matching;
 }
