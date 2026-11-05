@@ -14,5 +14,7 @@
     },
     "template_file": "main.typ",
     "content_dir": "content",
-    "output_file": "notebook.pdf"
+    "output_file": "notebook.pdf",
+    "book_output_file": "book.pdf",
+    "mode": "tour"
 }

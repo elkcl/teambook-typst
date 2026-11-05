@@ -1,5 +1,6 @@
 #import "@preview/datify:1.3.0": *
-#import "@preview/mitex:0.2.7": *
+#import "@preview/cmarker:0.1.8"
+#import "@preview/mitex:0.2.7": mitex
 
 #let config = json(sys.inputs.config_file)
 #let title = config.title
@@ -13,7 +14,12 @@
 )
 #let author = team + " (" + members.join(", ") + ")"
 #let content_dir = sys.inputs.content_dir
-#let files = sys.inputs.files.split("\n").map(it => it.split("/"))
+#let mode = sys.inputs.at("mode", default: "tour")
+#let tour = mode == "tour"
+#let files = sys.inputs.files.split("\n").filter(it => it.len() > 0).map(it => it.split("/"))
+#let is_preamble(path) = path.len() == 1 and path.at(0) == "preamble.hpp"
+#let preamble_files = files.filter(is_preamble)
+#let content_files = files.filter(it => not is_preamble(it))
 
 #let group_by(arr, f) = if arr == () { () } else {
   let state = f(arr.at(0))
@@ -39,34 +45,95 @@
   kt: "kotlin",
 )
 
-#let generate_content(files, depth, pref) = {
-  let ans = ()
-  let groups = group_by(files, it => it.at(0))
-  for group in groups {
-    if group.len() == 1 and group.at(0).len() == 1 {
-      let filename = group.at(0).at(0)
-      let path = pref.join("/") + "/" + filename
-      let ext = filename.split(".").at(-1)
-      let basename = filename.split(".").slice(0, -1).join(".")
-      ans.push(heading(eval(basename, mode: "markup"), depth: depth))
-      if ext in languages {
-        ans.push(raw(read(path), lang: languages.at(ext)))
-      } else if ext == "typ" {
-        ans.push(eval(read(path), mode: "markup"))
-      } else if ext == "tex" {
-        ans.push(mitext(read(path)))
-      } else if ext == "txt" {
-        ans.push(raw(read(path)))
-      }
+#let md_math(src, block: false) = mitex(src, block: block)
+
+#let show_raw(path) = {
+  let ext = path.split(".").at(-1)
+  if ext in languages {
+    raw(read(path), lang: languages.at(ext))
+  } else {
+    raw(read(path))
+  }
+}
+
+#let note_prefix(path) = "md" + path.replace(regex("[^0-9A-Za-zА-Яа-яЁё]+"), "")
+
+#let render_notes(path) = {
+  let body = read(path)
+  if body.trim() == "" { return none }
+  cmarker.render(
+    body,
+    smart-punctuation: false,
+    math: md_math,
+    h1-level: 2,
+    raw-typst: false,
+    label-prefix: note_prefix(path),
+  )
+}
+
+#let is_entry_file(name) = name == "notes.md" or name.starts-with("code.")
+
+#let render_algorithm(title, group, depth, pref) = {
+  let base = pref.join("/") + "/" + title
+  let code_path = none
+  let notes_path = none
+  for item in group {
+    let filename = item.at(1)
+    let path = base + "/" + filename
+    if filename == "notes.md" {
+      notes_path = path
     } else {
-      let groupname = group.at(0).at(0)
-      pref.push(groupname)
-      ans.push(heading(eval(groupname, mode: "markup"), depth: depth))
-      for i in range(group.len()) {
-        group.at(i).remove(0)
+      code_path = path
+    }
+  }
+  let parts = (heading(eval(title, mode: "markup"), depth: depth),)
+  let want_notes = mode == "book" or code_path == none
+  let note = if want_notes and notes_path != none { render_notes(notes_path) } else { none }
+  if note != none {
+    parts.push(note)
+    if code_path != none {
+      parts.push(v(0.6em))
+    }
+  }
+  if code_path != none {
+    parts.push(show_raw(code_path))
+  }
+  return parts.join()
+}
+
+#let generate_content(entries, depth, pref, start_new_page: true) = {
+  let ans = ()
+  let new_page = start_new_page
+  let groups = group_by(entries, it => it.at(0))
+  for group in groups {
+    let name = group.at(0).at(0)
+    if group.all(it => it.len() == 1) {
+      for item in group {
+        let filename = item.at(0)
+        if filename == "preamble.hpp" {
+          let path = pref.join("/") + "/" + filename
+          ans.push(heading(depth: depth)[Preamble])
+          ans.push(show_raw(path))
+        }
       }
-      ans.push(generate_content(group, depth + 1, pref))
-      pref.pop()
+    } else if group.all(it => it.len() == 2 and is_entry_file(it.at(1))) {
+      if mode == "book" and new_page {
+        ans.push(pagebreak(weak: true))
+      }
+      ans.push(render_algorithm(name, group, depth, pref))
+      new_page = true
+    } else {
+      if mode == "book" and new_page {
+        ans.push(pagebreak(weak: true))
+      }
+      pref.push(name)
+      ans.push(heading(eval(name, mode: "markup"), depth: depth))
+      for i in range(group.len()) {
+        let _ = group.at(i).remove(0)
+      }
+      ans.push(generate_content(group, depth + 1, pref, start_new_page: false))
+      let _ = pref.pop()
+      new_page = true
     }
   }
   return ans.join()
@@ -75,10 +142,10 @@
 #set document(title: title, author: author)
 #set page(
   paper: "a4",
-  flipped: true,
-  margin: (x: 1cm, y: 2cm),
+  flipped: tour,
+  margin: if tour { (x: 1cm, y: 2cm) } else { (x: 1.8cm, y: 1.8cm) },
   numbering: "1",
-  columns: 3,
+  columns: if tour { 3 } else { 1 },
   header: context {
     let pg = counter(page).get().first()
     if pg != 1 {
@@ -96,8 +163,13 @@
     }
   },
 )
-#set text(font: "Libertinus Serif", lang: "ru", region: "ru", size: 11pt)
-#show raw: set text(font: "FantasqueSansM Nerd Font Mono", size: 9pt, ligatures: false, features: ("calt": 0))
+#set text(font: "Libertinus Serif", lang: "ru", region: "ru", size: if tour { 11pt } else { 12pt })
+#show raw: set text(
+  font: "FantasqueSansM Nerd Font Mono",
+  size: if tour { 9pt } else { 10pt },
+  ligatures: false,
+  features: ("calt": 0),
+)
 #set heading(numbering: "1.1")
 #show outline.entry.where(level: 1): set text(weight: "bold")
 
@@ -119,5 +191,9 @@
 
 #outline(depth: 5, indent: auto)
 
+#if preamble_files.len() > 0 {
+  heading(depth: 1)[Preamble]
+  show_raw(content_dir + "/preamble.hpp")
+}
 
-#generate_content(files, 1, (content_dir,))
+#generate_content(content_files, 1, (content_dir,))

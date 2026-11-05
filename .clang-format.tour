@@ -1,0 +1,22 @@
+LineEnding: LF
+BasedOnStyle: LLVM
+IndentWidth: 2
+ColumnLimit: 50
+UseTab: Never
+SortIncludes: Never
+SpaceAfterCStyleCast: true
+IndentCaseLabels: false
+InsertBraces: false
+RemoveBracesLLVM: true
+RemoveEmptyLinesInUnwrappedLines: true
+SeparateDefinitionBlocks: Never
+KeepEmptyLines:
+  AtEndOfFile: false
+  AtStartOfBlock: false
+  AtStartOfFile: false
+MaxEmptyLinesToKeep: 0
+InsertNewlineAtEOF: true
+IndentGotoLabels: false
+AllowShortEnumsOnASingleLine: true
+BreakBeforeBraces: Attach
+ReflowComments: true

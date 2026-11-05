@@ -1,43 +1,22 @@
 LineEnding: LF
 BasedOnStyle: LLVM
 IndentWidth: 2
-ColumnLimit: 50
+ColumnLimit: 80
 UseTab: Never
 SortIncludes: Never
 SpaceAfterCStyleCast: true
 IndentCaseLabels: false
 InsertBraces: false
 RemoveBracesLLVM: true
-RemoveEmptyLinesInUnwrappedLines: true
-SeparateDefinitionBlocks: Never
+RemoveEmptyLinesInUnwrappedLines: false
+SeparateDefinitionBlocks: Always
 KeepEmptyLines:
   AtEndOfFile: false
   AtStartOfBlock: false
   AtStartOfFile: false
-MaxEmptyLinesToKeep: 0
+MaxEmptyLinesToKeep: 1
 InsertNewlineAtEOF: true
 IndentGotoLabels: false
-# AlwaysBreakAfterReturnType: AllDefinitions
 AllowShortEnumsOnASingleLine: true
 BreakBeforeBraces: Attach
-# BraceWrapping:
-#   AfterCaseLabel:  false
-#   AfterClass:      true
-#   AfterControlStatement: Never
-#   AfterEnum:       true
-#   AfterExternBlock: false
-#   AfterFunction:   true
-#   AfterNamespace:  true
-#   AfterObjCDeclaration: false
-#   AfterStruct:     true
-#   AfterUnion:      true
-#   BeforeCatch:     false
-#   BeforeElse:      false
-#   BeforeLambdaBody: false
-#   BeforeWhile:     false
-#   IndentBraces:    false
-#   SplitEmptyFunction: true
-#   SplitEmptyRecord: true
-#   SplitEmptyNamespace: true
-# IndentAccessModifiers: false
-# AccessModifierOffset: -4
+ReflowComments: true

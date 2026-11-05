@@ -1,35 +1,86 @@
 #!/usr/bin/env bash
-set -e
+# Собирает справочник.
+# Режим tour — компактный трёхколоночный справочник на тур:
+#   код прогоняется через .clang-format.tour (ширина 50, без пустых строк).
+# Режим book — книга: notes.md и код как в репозитории (ширина 80).
+# Режим в командной строке перекрывает поле mode в конфиге.
+# Usage: ./build <config.json> [tour|book]
+set -euo pipefail
 
-if ! command -v "typst" >/dev/null 2>&1; then
+if ! command -v typst >/dev/null 2>&1; then
     echo "typst is not installed"
     exit 1
 fi
 
-if ! command -v "jq" >/dev/null 2>&1; then
+if ! command -v jq >/dev/null 2>&1; then
     echo "jq is not installed"
     exit 1
 fi
 
-if ! command -v "find" >/dev/null 2>&1; then
+if ! command -v find >/dev/null 2>&1; then
     echo "find is not installed"
     exit 1
 fi
 
-if [ $# -eq 0 ]; then
-    echo "Not enough arguments supplied"
-    echo "Usage: $0 <config.json>"
+if [ $# -lt 1 ] || [ $# -gt 2 ]; then
+    echo "Usage: $0 <config.json> [tour|book]"
     exit 1
 fi
 
-if [ ! -f "$1" ]; then
+CONFIG_ABS=$(readlink -f "$1")
+cd "$(dirname "$(readlink -f "$0")")"
+CONFIG=$(realpath --relative-to="$PWD" "$CONFIG_ABS")
+
+if [ ! -f "$CONFIG" ]; then
     echo "Config file not found"
     exit 1
 fi
 
-TEMPLATE_FILE=$(jq -r '.template_file' "$1")
-CONTENT_DIR=$(jq -r '.content_dir' "$1")
-OUTPUT_FILE=$(jq -r '.output_file' "$1")
-FILES=$(find "$CONTENT_DIR" -type f | cut -sd / -f 2-)
+if [ $# -eq 2 ]; then
+    MODE=$2
+else
+    MODE=$(jq -r '.mode // "tour"' "$CONFIG")
+fi
 
-typst compile --input config_file="$1" --input content_dir="$CONTENT_DIR" --input files="$FILES" "$TEMPLATE_FILE" "$OUTPUT_FILE"
+if [ "$MODE" != "tour" ] && [ "$MODE" != "book" ]; then
+    echo "Mode must be tour or book, got: $MODE"
+    exit 1
+fi
+
+TEMPLATE_FILE=$(jq -r '.template_file' "$CONFIG")
+CONTENT_DIR=$(jq -r '.content_dir' "$CONFIG")
+
+if [ "$MODE" = "book" ]; then
+    OUTPUT_FILE=$(jq -r '.book_output_file // "book.pdf"' "$CONFIG")
+else
+    OUTPUT_FILE=$(jq -r '.output_file' "$CONFIG")
+fi
+
+if [ ! -d "$CONTENT_DIR" ]; then
+    echo "Content directory not found: $CONTENT_DIR"
+    exit 1
+fi
+
+WORK_CONTENT=$CONTENT_DIR
+if [ "$MODE" = "tour" ]; then
+    if ! command -v clang-format >/dev/null 2>&1; then
+        echo "clang-format is not installed"
+        exit 1
+    fi
+    rm -rf .build/tour
+    mkdir -p .build/tour
+    cp -a "$CONTENT_DIR"/. .build/tour/
+    find .build/tour -type f \
+        \( -name '*.hpp' -o -name '*.cpp' -o -name '*.h' -o -name '*.c' \) \
+        -exec clang-format -i --style="file:${PWD}/.clang-format.tour" {} +
+    WORK_CONTENT=.build/tour
+fi
+
+FILES=$(cd "$WORK_CONTENT" && find . -type f | sed 's|^\./||')
+
+typst compile \
+    --input config_file="$CONFIG" \
+    --input content_dir="$WORK_CONTENT" \
+    --input files="$FILES" \
+    --input mode="$MODE" \
+    "$TEMPLATE_FILE" "$OUTPUT_FILE"
