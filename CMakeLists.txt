@@ -43,7 +43,9 @@ if(NOT TEST_SOURCES)
 endif()
 
 add_executable(algo_tests ${TEST_SOURCES})
-target_include_directories(algo_tests PRIVATE "${CMAKE_SOURCE_DIR}")
+target_include_directories(algo_tests PRIVATE
+  "${CMAKE_SOURCE_DIR}"
+  "${CMAKE_SOURCE_DIR}/content")
 target_link_libraries(algo_tests PRIVATE GTest::gtest_main)
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
   target_compile_options(algo_tests PRIVATE -Wall -Wextra -Wpedantic)

@@ -1,10 +1,9 @@
-vector<int> dijkstra(int s) {
+#include "preamble.hpp"
+
+vector<int> dijkstra(vector<vpii> &g, int n, int s) {
     vector<int> d(n, inf);
-    d[root] = 0;
-    // объявим очередь с приоритетами для *минимума*
-    // (по умолчанию ищется максимум)
-    using pair<int, int> Pair;
-    priority_queue<Pair, vector<Pair>, greater<Pair>> q;
+    d[s] = 0;
+    priority_queue<pii, vpii, greater<pii>> q{};
     q.push({0, s});
     while (!q.empty()) {
         auto [cur_d, v] = q.top();
@@ -19,4 +18,23 @@ vector<int> dijkstra(int s) {
             }
         }
     }
+    return d;
+}
+
+vector<int> set_dijkstra(vector<vpii> &g, int n, int s) {
+    vector<int> d(n, inf);
+    d[s] = 0;
+    set<pii> q{{0, s}};
+    while (!q.empty()) {
+        auto [cur_d, v] = *q.begin();
+        q.erase(q.begin());
+        for (auto [u, w] : g[v]) {
+            if (d[u] > d[v] + w) {
+                q.erase({d[u], u});
+                d[u] = d[v] + w;
+                q.insert({d[u], u});
+            }
+        }
+    }
+    return d;
 }

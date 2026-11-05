@@ -5,10 +5,10 @@
 
 using namespace std;
 using ll = int64_t;
-using ii = pair<int, int>;
+using pii = pair<int, int>;
 using vi = vector<int>;
 using vll = vector<ll>;
-using vii = vector<ii>;
+using vpii = vector<pii>;
 using vvi = vector<vi>;
 using vc = vector<char>;
 using vvc = vector<vc>;

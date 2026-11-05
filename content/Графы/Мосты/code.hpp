@@ -1,16 +1,19 @@
-void dfs(int v, int p = -1) {
+#include "preamble.hpp"
+
+void find_bridges(vvi &g, vi &h, vi &d, vc &used, vpii &bridges, int v,
+                  int p = -1) {
     used[v] = true;
-    d[v] = h[v] = (p == -1 ? 0 : h[p] + 1);
+    h[v] = (p == -1 ? 0 : h[p] + 1);
+    d[v] = h[v];
     for (int u : g[v]) {
         if (u != p) {
-            if (used[u]) { // если ребро обратное
+            if (used[u]) {
                 d[v] = min(d[v], h[u]);
-            } else { // если ребро прямое
-                dfs(u, v);
+            } else {
+                find_bridges(g, h, d, used, bridges, u, v);
                 d[v] = min(d[v], d[u]);
                 if (h[v] < d[u]) {
-                    // если нельзя другим путем добраться в
-                    // v или выше, то ребро (v, u) -- мост
+                    bridges.emplace_back(v, u);
                 }
             }
         }

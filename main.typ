@@ -47,12 +47,21 @@
 
 #let md_math(src, block: false) = mitex(src, block: block)
 
+// Первая строка #include "preamble.hpp" нужна clangd, в справочник она не входит.
+#let without_preamble_include(src) = {
+  src.replace(regex("^#include \"preamble\\.hpp\"[ \t]*\r?\n+"), "")
+}
+
 #let show_raw(path) = {
   let ext = path.split(".").at(-1)
+  let src = read(path)
+  if ext in ("c", "cpp", "h", "hpp") {
+    src = without_preamble_include(src)
+  }
   if ext in languages {
-    raw(read(path), lang: languages.at(ext))
+    raw(src, lang: languages.at(ext))
   } else {
-    raw(read(path))
+    raw(src)
   }
 }
 
