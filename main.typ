@@ -165,7 +165,7 @@
 )
 #set text(font: "Libertinus Serif", lang: "ru", region: "ru", size: if tour { 11pt } else { 12pt })
 #show raw: set text(
-  font: "FantasqueSansM Nerd Font Mono",
+  font: ("FantasqueSansM Nerd Font Mono", "DejaVu Sans Mono"),
   size: if tour { 9pt } else { 10pt },
   ligatures: false,
   features: ("calt": 0),

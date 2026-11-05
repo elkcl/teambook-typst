@@ -8,19 +8,21 @@
 #include "preamble.hpp"
 
 template <typename T> istream &operator>>(istream &s, vector<T> &v) {
-  for (auto &&el : v)
-    s >> el;
-  return s;
+    for (auto &&el : v) {
+        s >> el;
+    }
+    return s;
 }
 
 template <typename T> ostream &operator<<(ostream &s, const vector<T> &v) {
-  for (auto &&el : v)
-    s << el << ' ';
-  s << '\n';
-  return s;
+    for (auto &&el : v) {
+        s << el << ' ';
+    }
+    s << '\n';
+    return s;
 }
 
 signed main() {
-  ios_base::sync_with_stdio(false);
-  cin.tie(nullptr);
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
 }
