@@ -18,5 +18,6 @@ MaxEmptyLinesToKeep: 0
 InsertNewlineAtEOF: true
 IndentGotoLabels: false
 AllowShortEnumsOnASingleLine: true
+AllowShortIfStatementsOnASingleLine: WithoutElse
 BreakBeforeBraces: Attach
 ReflowComments: true

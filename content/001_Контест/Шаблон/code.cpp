@@ -22,7 +22,16 @@ template <typename T> ostream &operator<<(ostream &s, const vector<T> &v) {
     return s;
 }
 
-signed main() {
-    ios_base::sync_with_stdio(false);
+void solve() { /* ... */ }
+
+int32_t main() {
     cin.tie(nullptr);
+    ios_base::sync_with_stdio(false);
+
+    int t = 1;
+    // cin >> t;
+
+    while (t--) {
+        solve();
+    }
 }

@@ -81,6 +81,7 @@
 }
 
 #let is_entry_file(name) = name == "notes.md" or name.starts-with("code.")
+#let strip_order_prefix(name) = name.replace(regex("^[0-9]{3}_"), "")
 
 #let render_algorithm(title, group, depth, pref) = {
   let base = pref.join("/") + "/" + title
@@ -95,7 +96,7 @@
       code_path = path
     }
   }
-  let parts = (heading(eval(title, mode: "markup"), depth: depth),)
+  let parts = (heading(eval(strip_order_prefix(title), mode: "markup"), depth: depth),)
   let want_notes = mode == "book" or code_path == none
   let note = if want_notes and notes_path != none { render_notes(notes_path) } else { none }
   if note != none {
@@ -136,7 +137,7 @@
         ans.push(pagebreak(weak: true))
       }
       pref.push(name)
-      ans.push(heading(eval(name, mode: "markup"), depth: depth))
+      ans.push(heading(eval(strip_order_prefix(name), mode: "markup"), depth: depth))
       for i in range(group.len()) {
         let _ = group.at(i).remove(0)
       }

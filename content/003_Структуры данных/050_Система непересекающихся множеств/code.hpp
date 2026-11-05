@@ -1,10 +1,10 @@
 struct dsu {
     vi p;
-    vi rank;
+    vi sz;
 
     dsu(int n) {
         p.resize(n);
-        rank.resize(n, 1);
+        sz.resize(n, 1);
         iota(all(p), 0);
     }
 
@@ -21,10 +21,10 @@ struct dsu {
         if (a == b) {
             return;
         }
-        if (rank[a] < rank[b]) {
+        if (sz[a] < sz[b]) {
             swap(a, b);
         }
         p[b] = a;
-        rank[a] += rank[b];
+        sz[a] += sz[b];
     }
 };
