@@ -5,11 +5,11 @@
 
 using namespace __gnu_pbds;
 
+using namespace std;
 template <typename T>
 using OrderedSet =
     tree<T, null_type, less<>, rb_tree_tag, tree_order_statistics_node_update>;
 
-using namespace std;
 using ll = int64_t;
 using pii = pair<int, int>;
 using pll = pair<ll, ll>;
