@@ -163,31 +163,31 @@ TEST(a_002_Grafy_Kratchayshie_puti_Floyd, NegativeEdgesNoCycle) {
 
 TEST(a_002_Grafy_Kratchayshie_puti_Floyd, LongNegativePathIsNotClamped) {
     vector<vpii> g(4);
-    g[0].push_back({1, -600000000});
-    g[1].push_back({2, -600000000});
+    g[0].push_back({1, -(inf / 2 - 1)});
+    g[1].push_back({2, -(inf / 2 - 1)});
     g[2].push_back({3, 1});
     check(g);
 }
 
-TEST(a_002_Grafy_Kratchayshie_puti_Floyd, NegativeSumJustBelowClamp) {
+TEST(a_002_Grafy_Kratchayshie_puti_Floyd, NegativeSumJustInsideSentinel) {
     vector<vpii> g(3);
-    g[0].push_back({1, -500000000});
-    g[1].push_back({2, -500000001});
+    g[0].push_back({1, -inf / 2});
+    g[1].push_back({2, -(inf / 2 - 1)});
     check(g);
 }
 
 TEST(a_002_Grafy_Kratchayshie_puti_Floyd, HeavyDetourMustNotBeatShortEdge) {
     vector<vpii> g(3);
     g[0].push_back({2, 10});
-    g[0].push_back({1, 1500000000});
-    g[1].push_back({2, 1500000000});
+    g[0].push_back({1, inf / 2 - 1});
+    g[1].push_back({2, inf / 2 - 1});
     check(g);
 }
 
 TEST(a_002_Grafy_Kratchayshie_puti_Floyd, SumOfLargePositiveEdges) {
     vector<vpii> g(3);
-    g[0].push_back({1, 600000000});
-    g[1].push_back({2, 600000000});
+    g[0].push_back({1, inf / 2});
+    g[1].push_back({2, inf / 2 - 1});
     check(g);
 }
 

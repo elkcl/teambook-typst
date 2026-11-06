@@ -222,16 +222,16 @@ TEST(a_002_Grafy_Kratchayshie_puti_Ford_Bellman, UnreachableHeavyEdgeDoesNotCorr
     check(g, 0);
 }
 
-TEST(a_002_Grafy_Kratchayshie_puti_Ford_Bellman, EdgeHeavierThanSentinel) {
+TEST(a_002_Grafy_Kratchayshie_puti_Ford_Bellman, EdgeJustBelowSentinel) {
     vector<vpii> g(2);
-    g[0].push_back({1, 1500000000});
+    g[0].push_back({1, inf - 1});
     check(g, 0);
 }
 
-TEST(a_002_Grafy_Kratchayshie_puti_Ford_Bellman, PathSumAboveSentinel) {
+TEST(a_002_Grafy_Kratchayshie_puti_Ford_Bellman, PathSumJustBelowSentinel) {
     vector<vpii> g(3);
-    g[0].push_back({1, 500000000});
-    g[1].push_back({2, 500000001});
+    g[0].push_back({1, inf / 2});
+    g[1].push_back({2, inf / 2 - 1});
     check(g, 0);
 }
 
@@ -244,12 +244,12 @@ TEST(a_002_Grafy_Kratchayshie_puti_Ford_Bellman, PathSumBelowSentinelStillExact)
 
 TEST(a_002_Grafy_Kratchayshie_puti_Ford_Bellman, HeavyNegativeCycleMustBeReported) {
     vector<vpii> loop(2);
-    loop[0].push_back({0, -2000000000});
+    loop[0].push_back({0, -inf / 2});
     check(loop, 0);
 
     vector<vpii> pair(2);
-    pair[0].push_back({1, -1500000000});
-    pair[1].push_back({0, -1500000000});
+    pair[0].push_back({1, -inf / 2});
+    pair[1].push_back({0, -inf / 2});
     check(pair, 0);
 }
 

@@ -27,7 +27,7 @@ vll reversed(int n) {
 }
 
 void expect_lexicographic(int n) {
-    Perm perm(n);
+    Permutations perm(n);
     vll order = identity(n);
     ll index = 0;
     do {
@@ -43,7 +43,7 @@ void expect_lexicographic(int n) {
 }  // namespace
 
 TEST(a_007_Drugoe_Nomera_perestanovok, FactorialsThrough20) {
-    Perm perm(20);
+    Permutations perm(20);
     ASSERT_EQ(perm.fac.size(), 21u);
     ll value = 1;
     EXPECT_EQ(perm.fac[0], 1);
@@ -55,17 +55,17 @@ TEST(a_007_Drugoe_Nomera_perestanovok, FactorialsThrough20) {
 }
 
 TEST(a_007_Drugoe_Nomera_perestanovok, EmptyAndSingle) {
-    Perm empty(0);
+    Permutations empty(0);
     EXPECT_EQ(empty.encode_perm({}), 0);
     EXPECT_EQ(empty.decode_perm(0, 0), vll{});
 
-    Perm one(1);
+    Permutations one(1);
     EXPECT_EQ(one.encode_perm({0}), 0);
     EXPECT_EQ(one.decode_perm(0, 1), (vll{0}));
 }
 
 TEST(a_007_Drugoe_Nomera_perestanovok, LengthThreeInLexOrder) {
-    Perm perm(3);
+    Permutations perm(3);
     vector<pair<vll, ll>> order = {
         {{0, 1, 2}, 0}, {{0, 2, 1}, 1}, {{1, 0, 2}, 2},
         {{1, 2, 0}, 3}, {{2, 0, 1}, 4}, {{2, 1, 0}, 5},
@@ -84,7 +84,7 @@ TEST(a_007_Drugoe_Nomera_perestanovok, AllPermutationsUpToLength8) {
 
 TEST(a_007_Drugoe_Nomera_perestanovok, FirstAndLastUpTo20) {
     for (int n : {1, 12, 20}) {
-        Perm perm(n);
+        Permutations perm(n);
         vll first = identity(n);
         vll last = reversed(n);
         ll last_rank = factorial(n) - 1;
@@ -98,13 +98,13 @@ TEST(a_007_Drugoe_Nomera_perestanovok, FirstAndLastUpTo20) {
 TEST(a_007_Drugoe_Nomera_perestanovok, EncodeDoesNotChangeArgument) {
     vll perm_value = {2, 0, 1};
     vll copy = perm_value;
-    Perm perm(3);
+    Permutations perm(3);
     EXPECT_EQ(perm.encode_perm(perm_value), 4);
     EXPECT_EQ(perm_value, copy);
 }
 
 TEST(a_007_Drugoe_Nomera_perestanovok, ShorterLengthUsesPreparedFactorials) {
-    Perm perm(8);
+    Permutations perm(8);
     vll swap_first = {1, 0};
     EXPECT_EQ(perm.encode_perm(swap_first), 1);
     EXPECT_EQ(perm.decode_perm(1, 2), swap_first);
@@ -116,7 +116,7 @@ TEST(a_007_Drugoe_Nomera_perestanovok, ShorterLengthUsesPreparedFactorials) {
 }
 
 TEST(a_007_Drugoe_Nomera_perestanovok, RepeatedCallsStayConsistent) {
-    Perm perm(6);
+    Permutations perm(6);
     vll sample = {3, 1, 4, 0, 5, 2};
     ll rank = perm.encode_perm(sample);
     EXPECT_EQ(perm.encode_perm(sample), rank);

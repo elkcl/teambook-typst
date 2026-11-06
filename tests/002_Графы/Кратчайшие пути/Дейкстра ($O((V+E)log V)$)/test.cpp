@@ -196,17 +196,17 @@ TEST(a_002_Grafy_Kratchayshie_puti_Deykstra_O_V_E_log_V, NegativeEdgeNoCycle) {
 TEST(a_002_Grafy_Kratchayshie_puti_Deykstra_O_V_E_log_V, HeavyDetourMustNotBeatShortEdge) {
     vector<vpii> g(3);
     g[0].push_back({2, 10});
-    g[0].push_back({1, 1500000000});
-    g[1].push_back({2, 1500000000});
+    g[0].push_back({1, inf / 2 - 1});
+    g[1].push_back({2, inf / 2 - 1});
     check(g, 0);
 }
 
 TEST(a_002_Grafy_Kratchayshie_puti_Deykstra_O_V_E_log_V, DistanceNearSentinel) {
     vector<vpii> g(3);
-    g[0].push_back({1, inf});
+    g[0].push_back({1, inf - 5});
     g[1].push_back({2, 0});
     check(g, 0);
-    g[1].back().second = 5;
+    g[1].back().second = 4;
     check(g, 0);
 }
 

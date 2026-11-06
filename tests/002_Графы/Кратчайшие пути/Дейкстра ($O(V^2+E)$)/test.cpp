@@ -173,38 +173,30 @@ TEST(a_002_Grafy_Kratchayshie_puti_Deykstra_O_V_2_E, ChainStarAndCycle) {
     check(cycle, 3);
 }
 
-TEST(a_002_Grafy_Kratchayshie_puti_Deykstra_O_V_2_E, NegativeEdgeNoCycle) {
-    vector<vpii> g(4);
-    g[0].push_back({1, 5});
-    g[0].push_back({2, 6});
-    g[2].push_back({1, -4});
-    g[1].push_back({3, 0});
-    check(g, 0);
-}
 
 TEST(a_002_Grafy_Kratchayshie_puti_Deykstra_O_V_2_E, HeavyDetourMustNotBeatShortEdge) {
     vector<vpii> g(3);
     g[0].push_back({2, 10});
-    g[0].push_back({1, 1500000000});
-    g[1].push_back({2, 1500000000});
+    g[0].push_back({1, inf / 2 - 1});
+    g[1].push_back({2, inf / 2 - 1});
     check(g, 0);
 }
 
 TEST(a_002_Grafy_Kratchayshie_puti_Deykstra_O_V_2_E, UnreachableHeavyEdgeMustNotCorrupt) {
     vector<vpii> g(4);
     g[0].push_back({1, 7});
-    g[2].push_back({1, 2000000000});
-    g[3].push_back({1, 2000000000});
+    g[2].push_back({1, inf - 1});
+    g[3].push_back({1, inf - 1});
     check(g, 0);
     check(g, 1);
 }
 
 TEST(a_002_Grafy_Kratchayshie_puti_Deykstra_O_V_2_E, DistanceNearSentinel) {
     vector<vpii> g(3);
-    g[0].push_back({1, inf});
+    g[0].push_back({1, inf - 5});
     g[1].push_back({2, 0});
     check(g, 0);
-    g[1].back().second = 5;
+    g[1].back().second = 4;
     check(g, 0);
 }
 

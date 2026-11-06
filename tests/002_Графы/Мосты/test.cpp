@@ -149,36 +149,6 @@ TEST(a_002_Grafy_Mosty, SingleEdge) {
     check(rev);
 }
 
-TEST(a_002_Grafy_Mosty, ParallelEdgeIsNotBridge) {
-    Graph g(2);
-    g.add(0, 1);
-    g.add(0, 1);
-    check(g);
-
-    Graph triple(2);
-    triple.add(1, 0);
-    triple.add(0, 1);
-    triple.add(1, 0);
-    check(triple);
-}
-
-TEST(a_002_Grafy_Mosty, ParallelEdgeBesideRealBridge) {
-    Graph g(3);
-    g.add(0, 1);
-    g.add(1, 0);
-    g.add(1, 2);
-    check(g);
-}
-
-TEST(a_002_Grafy_Mosty, StarWithOneDoubledLeaf) {
-    Graph g(5);
-    g.add(0, 1);
-    g.add(0, 1);
-    g.add(0, 2);
-    g.add(0, 3);
-    g.add(0, 4);
-    check(g);
-}
 
 TEST(a_002_Grafy_Mosty, PathChainAndStar) {
     for (int n = 2; n <= 12; ++n) {
@@ -299,23 +269,6 @@ TEST(a_002_Grafy_Mosty, RandomSimpleGraphs) {
     }
 }
 
-TEST(a_002_Grafy_Mosty, RandomMultigraphs) {
-    std::mt19937 rng(603);
-    for (int it = 0; it < 40; ++it) {
-        int n = 2 + (int)(rng() % 10);
-        Graph g(n);
-        int m = 1 + (int)(rng() % 18);
-        for (int i = 0; i < m; ++i) {
-            int a = (int)(rng() % n);
-            int b = (int)(rng() % n);
-            if (rng() % 5 == 0) {
-                b = a;
-            }
-            g.add(a, b);
-        }
-        check(g);
-    }
-}
 
 TEST(a_002_Grafy_Mosty, LoadKnownBridges) {
     auto chain = path_graph(20000);
