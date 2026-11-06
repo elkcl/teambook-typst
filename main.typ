@@ -47,16 +47,22 @@
 
 #let md_math(src, block: false) = mitex(src, block: block)
 
-// Первая строка #include "preamble.hpp" нужна clangd, в справочник она не входит.
-#let without_preamble_include(src) = {
-  src.replace(regex("^#include \"preamble\\.hpp\"[ \t]*\r?\n+"), "")
+// Строки #include "..." нужны компилятору сниппета, в справочник они не входят.
+// Системные #include <...> остаются. В разделе «Контест» #include "preamble.hpp" печатается.
+#let without_user_includes(src, keep_preamble: false) = {
+  let preamble_include = regex("(?m)^#include \"preamble(?:\\.hpp)?\"[ \t]*(?:\r?\n|$)")
+  let user_include = regex("(?m)^#include \"[^\"]*\"[ \t]*(?:\r?\n+|$)")
+  let mark = "/*__KEEP_PREAMBLE_INCLUDE__*/\n"
+  let marked = if keep_preamble { src.replace(preamble_include, mark, count: 100) } else { src }
+  let stripped = marked.replace(user_include, "", count: 100)
+  if keep_preamble { stripped.replace(mark, "#include \"preamble.hpp\"\n", count: 100) } else { stripped }
 }
 
 #let show_raw(path) = {
   let ext = path.split(".").at(-1)
   let src = read(path)
   if ext in ("c", "cpp", "h", "hpp") {
-    src = without_preamble_include(src)
+    src = without_user_includes(src, keep_preamble: path.split("/").contains("001_Контест"))
   }
   if ext in languages {
     raw(src, lang: languages.at(ext))
