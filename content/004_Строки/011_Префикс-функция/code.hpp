@@ -1,3 +1,5 @@
+#include "preamble.hpp"
+
 vi pref_func(const string &s) {
     vi p(s.size(), 0);
     for (int i = 1; i < s.size(); ++i) {

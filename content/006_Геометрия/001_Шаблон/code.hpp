@@ -1,3 +1,4 @@
+#include "preamble.hpp"
 int sgn(ld val) { return (0 < val) - (val < 0); }
 
 struct Point {

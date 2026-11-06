@@ -1,3 +1,4 @@
+#include "preamble.hpp"
 int n;
 vector<char> prime(n + 1, true);
 prime[0] = prime[1] = false;

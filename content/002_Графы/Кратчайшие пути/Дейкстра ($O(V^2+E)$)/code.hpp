@@ -11,6 +11,9 @@ vi dijkstra(vector<vpii> &g, int n, int s) {
                 v = u;
             }
         }
+        if (d[v] == inf) {
+            break;
+        }
         used[v] = true;
         for (auto [u, w] : g[v]) {
             d[u] = min(d[u], d[v] + w);

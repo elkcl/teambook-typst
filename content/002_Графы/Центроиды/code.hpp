@@ -1,58 +1,76 @@
-// Центроиды с алгоритмики
-int l = 179;
-int ans = 0;
-bool used[maxn];
-int s[maxn];
+#include "preamble.hpp"
+#include <cstddef>
 
-void sizes(int v, int p) {
-    s[v] = 1;
-    for (int u : g[v]) {
-        if (u != p && !used[u]) {
-            sizes(u, v), s[v] += s[u];
+struct CentroidDecomposition {
+    vvi &g;
+    vi centroid_parent;
+    vi sizes;
+    vc dead;
+
+    CentroidDecomposition(vvi &_g) : g(_g) {
+        if (g.empty()) {
+            return;
+        }
+        centroid_parent.resize(g.size(), -1);
+        sizes.resize(g.size(), -1);
+        dead.resize(g.size(), false);
+        for (size_t i = 0; i < g.size(); ++i) {
+            if (!dead[i]) {
+                build(i);
+            }
         }
     }
-}
 
-int centroid(int v, int p, int n) {
-    for (int u : g[v]) {
-        if (u != p && !used[u] && s[u] > n / 2) {
-            return centroid(u, v, n);
-        }
-    }
-    return v;
-}
+    int count_size(int cur_v, int from) {
+        vpii order{{cur_v, from}};
 
-void dfs(int v, int p, int d, vector<int> &t) {
-    t.push_back(d);
-    for (int u : g[v]) {
-        if (u != p && !used[u]) {
-            dfs(u, v, d + 1, t);
-        }
-    }
-}
-
-void solve(int v) {
-    sizes(v);
-    vector<int> d(s[v], 0);
-    d[0] = 1;
-    for (int u : g[v]) {
-        if (!used[u]) {
-            vector<int> t;
-            dfs(u, v, 1, t);
-            for (int x : t) {
-                if (x <= l) {
-                    ans += d[l - x];
+        for (int i = 0; i < static_cast<int>(order.size()); ++i) {
+            auto [v, parent] = order[i];
+            sizes[v] = 1;
+    
+            for (int to : g[v]) {
+                if (to != parent && !dead[to]) {
+                    order.emplace_back(to, v);
                 }
             }
-            for (int x : t) {
-                d[x]++;
+        }
+    
+        for (int i = static_cast<int>(order.size()) - 1; i > 0; --i) {
+            auto [v, parent] = order[i];
+            sizes[parent] += sizes[v];
+        }
+    
+        return sizes[cur_v];
+    }
+ 
+    int find_centroid(int cur_v, int from, int total) {
+        for (auto & to : g[cur_v]) {
+            if (to == from || dead[to]) {
+                continue;
+            }
+            if (sizes[to] > total / 2) {
+                return find_centroid(to, cur_v, total);
             }
         }
+        return cur_v;
     }
-    used[v] = 1;
-    for (int u : g[v]) {
-        if (!used[u]) {
-            solve(centroid(u, v, s[u]));
+ 
+    int build(int cur_v) {
+        int total = count_size(cur_v, -1);
+ 
+        int centroid = find_centroid(cur_v, -1, total);
+ 
+        dead[centroid] = true;
+ 
+        for (auto & to : g[centroid]) {
+            if (dead[to]) {
+                continue;
+            }
+ 
+            int child_centroid = build(to);
+            centroid_parent[child_centroid] = centroid;
         }
+ 
+        return centroid;
     }
-}
+};

@@ -1,3 +1,4 @@
+#include "preamble.hpp"
 int binpow(int a, int n) {
     int res = 1;
     while (n) {

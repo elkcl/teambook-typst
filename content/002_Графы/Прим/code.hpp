@@ -1,3 +1,4 @@
+#include "preamble.hpp"
 bool used[maxn];
 vector<pair<int, int>> g[maxn];
 int min_edge[maxn] = {inf}, best_edge[maxn];

@@ -1,3 +1,4 @@
+#include "preamble.hpp"
 struct dsu {
     vi p;
     vi sz;

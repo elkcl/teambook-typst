@@ -1,3 +1,4 @@
+#include "preamble.hpp"
 const int N = 10000000;
 int lp[N + 1];  // минимальный простой делитель
 vector<int> pr; // простые числа

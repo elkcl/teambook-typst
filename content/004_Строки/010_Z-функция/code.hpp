@@ -1,3 +1,5 @@
+#include "preamble.hpp"
+
 vi z_func(const string &s) {
     vi z(s.size(), 0);
     int l = 0, r = 0;

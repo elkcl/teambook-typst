@@ -1,3 +1,4 @@
+#include "preamble.hpp"
 const ll MOD = 998'244'353;
 const ll BLOCK = 500; // типа sqrt(MOD), но подбирать ручками
 

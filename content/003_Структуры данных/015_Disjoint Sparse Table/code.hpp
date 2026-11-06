@@ -1,3 +1,4 @@
+#include "preamble.hpp"
 /*! T is the type of the elements
  * Monoid is the operation functor type
  * identity is the identity element of the Monoid

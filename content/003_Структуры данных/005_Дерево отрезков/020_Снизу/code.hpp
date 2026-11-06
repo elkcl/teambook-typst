@@ -1,3 +1,4 @@
+#include "preamble.hpp"
 // ДО снизу от peltorator
 struct segtree {
     int sz;

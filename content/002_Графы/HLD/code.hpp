@@ -1,3 +1,4 @@
+#include "../../003_Структуры данных/005_Дерево отрезков/010_Обычное с массовыми/code.hpp"
 //
 //  Heavy-Light Decomposition
 //  Позволяет выполнять запросы на путях в дереве.
@@ -8,7 +9,7 @@ struct HLD {
     int n, t = 0;
     vector<vector<int>> g;
     vector<int> tin, siz, par, h, up;
-    SegmentTree st;
+    SegTree st;
 
     HLD(int n, const vector<vector<int>> &g)
         : n(n), g(g), tin(n), siz(n, 1), par(n), h(n), up(n), st(n) {

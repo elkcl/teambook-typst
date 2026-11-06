@@ -1,3 +1,4 @@
+#include "preamble.hpp"
 //  В дереве используется 1-индексация.
 struct FenwickTree {
     static int F(int x) { return x & -x; }

@@ -1,3 +1,4 @@
+#include "preamble.hpp"
 vector<V> graham(vector<V> points) {
     V p0 = points[0];
     for (V p : points) {

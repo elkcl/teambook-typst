@@ -1,3 +1,4 @@
+#include "preamble.hpp"
 struct IntPairHash {
     size_t operator()(const pair<int, int> &p) const {
         return hash<uint64_t>{}((((uint64_t) p.first) << 32) |

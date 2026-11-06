@@ -1,3 +1,4 @@
+#include "preamble.hpp"
 ii max_seg(vi &a) {
     int ans_l = 0, ans_r = 0, minus_pos = -1;
     ll ans = a[0], sum = 0;

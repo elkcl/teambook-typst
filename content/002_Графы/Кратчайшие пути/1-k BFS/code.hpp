@@ -1,19 +1,25 @@
-int d[maxn];
-d[s] = 0;
-queue<int> q[maxd];
-q[0].push_back(s);
-for (int dist = 0; dist < maxd; dist++) {
-    while (!q[dist].empty()) {
-        int v = q[dist].front();
-        q[dist].pop();
-        if (d[v] > dist) {
-            continue;
-        }
-        for (auto [u, w] : g[v]) {
-            if (d[u] > d[v] + w) {
-                d[u] = d[v] + w;
-                q[d[u]].push(u);
+#include "preamble.hpp"
+
+vi bfs1k(vector<vpii> &g, int s, int k) {
+    int n = g.size();
+    vi d(n, inf);
+    d[s] = 0;
+    vector<queue<int>> q(k + 1);
+    q[0].push(s);
+    for (int dist = 0; dist <= k * (n - 1); dist++) {
+        while (!q[dist % (k + 1)].empty()) {
+            int v = q[dist % (k + 1)].front();
+            q[dist % (k + 1)].pop();
+            if (d[v] != dist) {
+                continue;
+            }
+            for (auto [u, w] : g[v]) {
+                if (d[u] > d[v] + w) {
+                    d[u] = d[v] + w;
+                    q[d[u] % (k + 1)].push(u);
+                }
             }
         }
     }
+    return d;
 }

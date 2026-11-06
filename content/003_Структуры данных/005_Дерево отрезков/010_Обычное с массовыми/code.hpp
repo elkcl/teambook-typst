@@ -1,3 +1,4 @@
+#include "preamble.hpp"
 uint32_t bit_ceil(uint32_t n) {
     if (n <= 1) {
         return 1;
@@ -5,7 +6,7 @@ uint32_t bit_ceil(uint32_t n) {
     return 1u << (32 - __builtin_clz(n - 1));
 }
 
-struct segtree {
+struct SegTree {
     static constexpr ll NEUTRAL = 0;
 
     int n, sz;
@@ -13,14 +14,14 @@ struct segtree {
     vc need_push;
     vi lazy;
 
-    segtree(int n) : n(n) {
+    SegTree(int n) : n(n) {
         sz = bit_ceil(n);
         t.resize(2 * sz, NEUTRAL);
         need_push.resize(2 * sz, 0);
         lazy.resize(2 * sz, NEUTRAL);
     }
 
-    segtree(const vi &a) : segtree(a.size()) { build(a, 1, 0, sz); }
+    SegTree(const vi &a) : SegTree(a.size()) { build(a, 1, 0, sz); }
 
     ll combine(ll a, ll b) { return (a + b); }
 

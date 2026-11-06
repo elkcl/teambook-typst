@@ -1,7 +1,8 @@
+#include "preamble.hpp"
 ll combine(ll lans, ll rans) { return lans + rans; }
 
 typedef struct Node {
-    ll sum;
+    ll sum{};
 
     Node(int l, int r) : l(l), r(r) {}
 

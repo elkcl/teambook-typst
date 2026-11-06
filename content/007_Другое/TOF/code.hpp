@@ -1,3 +1,4 @@
+#include "preamble.hpp"
 template <typename F> ll tof(ll A, ll B, const F &f, ll S = 20) {
     auto block = [&](ll blk) {
         ll ans = f(S * blk);

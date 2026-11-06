@@ -1,3 +1,4 @@
+#include "preamble.hpp"
 // границы и номер запроса, на который нужно
 // ответить
 struct query {

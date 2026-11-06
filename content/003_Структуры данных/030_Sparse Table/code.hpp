@@ -1,3 +1,4 @@
+#include "preamble.hpp"
 struct sparse_table {
     int n;
     vi logs;

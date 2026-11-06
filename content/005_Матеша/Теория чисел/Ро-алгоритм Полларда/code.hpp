@@ -1,3 +1,4 @@
+#include "preamble.hpp"
 const int maxc = 500010;
 ll n, x[maxc];
 

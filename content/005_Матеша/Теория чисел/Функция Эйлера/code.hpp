@@ -1,3 +1,4 @@
+#include "preamble.hpp"
 int phi(int n) {
     int result = n;
     for (int i = 2; i * i <= n; ++i) {

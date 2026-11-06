@@ -1,3 +1,4 @@
+#include "preamble.hpp"
 vector<int> manacher_odd(string s) {
     int n = (int) s.size();
     vector<int> d(n, 1);
