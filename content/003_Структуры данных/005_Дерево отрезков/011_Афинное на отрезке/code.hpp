@@ -6,6 +6,10 @@ struct Affine {
     ll k = 1, b = 0;
 };
 
+const ll M = 1'000'000'007;
+vector<ll> t;
+vector<Affine> need_push;
+
 ll combine(ll a, ll b) { return (a + b) % M; }
 
 void apply_push(int v, int l, int r, const Affine &f) {

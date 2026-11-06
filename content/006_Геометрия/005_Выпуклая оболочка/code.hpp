@@ -1,4 +1,4 @@
-#include "../../../006_Геометрия/001_Шаблон/code.hpp"
+#include "../001_Шаблон/code.hpp"
 
 void sort_by_angle(vector<Point> &points, Point p0) {
     sort(points.begin() + 1, points.end(), [p0](Point a, Point b) {

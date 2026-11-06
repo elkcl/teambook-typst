@@ -4,10 +4,7 @@
 namespace {
 #include "content/005_Матеша/Теория чисел/Дискретный логарифм/code.hpp"
 
-ll ask(ll a, ll b) {
-    std::unordered_map<ll, ll> steps;
-    return dlog(a, b, steps);
-}
+ll ask(ll a, ll b) { return dlog(a, b); }
 
 }  // namespace
 
@@ -33,14 +30,13 @@ TEST(a_005_Matesha_Teoriya_chisel_Diskretnyy_logarifm, ZeroBaseDoesNotSolveOne) 
     EXPECT_EQ(binpow(0, 500, MOD), 0);
 }
 
-TEST(a_005_Matesha_Teoriya_chisel_Diskretnyy_logarifm, RandomExponentsAndReusedMap) {
+TEST(a_005_Matesha_Teoriya_chisel_Diskretnyy_logarifm, RandomExponents) {
     std::mt19937 rng(505);
-    std::unordered_map<ll, ll> steps;
     ll base = 2;
     for (int i = 0; i < 8; ++i) {
         ll exponent = (ll)(rng() % 5000);
         ll value = binpow(base, exponent, MOD);
-        ll got = dlog(base, value, steps);
+        ll got = dlog(base, value);
         ASSERT_GE(got, 0);
         EXPECT_EQ(binpow(base, got, MOD), value) << exponent;
     }

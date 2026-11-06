@@ -7,6 +7,17 @@ struct Point {
     ld absv() const;
     Point norm() const;
     Point rotate(ld a) const;
+
+    friend ostream& operator<< (ostream &out, Point p) {
+        out << p.x << " " << p.y; 
+        return out;  
+    }
+      
+    friend istream& operator>> (istream &in, Point &p) {
+        in >> p.x >> p.y; 
+        return in;  
+    }
+    
 };
 
 Point operator+(Point a, Point b) { return {a.x + b.x, a.y + b.y}; }
@@ -278,43 +289,30 @@ pair<pair<Point, Point>, int> operator^(Line l, Circle c) {
 }
 
 pair<pair<Point, Point>, int> operator^(Circle c1, Circle c2) {
-    ld rho = distance(c1.o, c2.o);
+    ld d = distance(c1.o, c2.o);
+    ld r1 = c1.r, r2 = c2.r;
+
     if (c1 == c2) {
         return {{c1.o, c1.o}, 3};
-    } else if (c1.contains(c2.o)) {
-        if (rho - c1.r + c2.r < EPS) {
-            return {{c1.o, c1.o}, 0};
-        } else if (abs(rho - c1.r + c2.r) < EPS) {
-            Point p = c1.o + (c2.o - c1.o).norm() * c1.r;
-            return {{p, p}, 1};
-        } else {
-            ld a = acos((c1.r * c1.r + rho * rho - c2.r * c2.r) /
-                        (2 * c1.r * rho));
-            Point p = (c2.o - c1.o).norm() * c1.r;
-            return {{c1.o + p.rotate(a), c1.o + p.rotate(-a)}, 2};
-        }
-    } else if (c2.contains(c1.o)) {
-        if (rho - c2.r + c1.r < EPS) {
-            return {{c2.o, c2.o}, 0};
-        } else if (abs(rho - c2.r + c1.r) < EPS) {
-            Point p = c2.o + (c1.o - c2.o).norm() * c2.r;
-            return {{p, p}, 1};
-        } else {
-            ld a = acos((c2.r * c2.r + rho * rho - c1.r * c1.r) /
-                        (2 * c2.r * rho));
-            Point p = (c1.o - c2.o).norm() * c2.r;
-            return {{c2.o + p.rotate(a), c2.o + p.rotate(-a)}, 2};
-        }
-    } else if (c1.r + c2.r - rho < EPS) {
-        return {{c1.o, c1.o}, 0};
-    } else if (abs(c1.r + c2.r - rho) < EPS) {
-        Point p = c1.o + (c2.o - c1.o).norm() * c1.r;
-        return {{p, p}, 1};
-    } else {
-        ld a = acos((c1.r * c1.r + rho * rho - c2.r * c2.r) / (2 * c1.r * rho));
-        Point p = (c2.o - c1.o).norm() * c1.r;
-        return {{c1.o + p.rotate(a), c1.o + p.rotate(-a)}, 2};
     }
+    if (d == 0 || d > r1 + r2 + EPS ||
+        d < abs(r1 - r2) - EPS) {
+        return {{c1.o, c1.o}, 0};
+    }
+
+    Point n = (c2.o - c1.o) / d;
+    ld x = (r1 * r1 - r2 * r2 + d * d) / (2 * d);
+    Point p = c1.o + n * x;
+
+    if (abs(d - r1 - r2) <= EPS ||
+        abs(d - abs(r1 - r2)) <= EPS) {
+        return {{p, p}, 1};
+    }
+
+    ld h = sqrt(max((ld)0, r1 * r1 - x * x));
+    Point v = Point{-n.y, n.x} * h;
+
+    return {{p + v, p - v}, 2};
 }
 
 pair<pair<Point, Point>, int> tangents(Point p, Circle c) {
