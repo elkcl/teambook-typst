@@ -71,6 +71,14 @@
   }
 }
 
+#let show_entry(path) = {
+  if path.ends-with(".typ") {
+    include path
+  } else {
+    show_raw(path)
+  }
+}
+
 #let note_prefix(path) = "md" + path.replace(regex("[^0-9A-Za-zА-Яа-яЁё]+"), "")
 
 #let render_notes(path) = {
@@ -112,7 +120,7 @@
     }
   }
   if code_path != none {
-    parts.push(show_raw(code_path))
+    parts.push(show_entry(code_path))
   }
   return parts.join()
 }
@@ -162,16 +170,6 @@
   margin: if tour { (x: 1cm, y: 2cm) } else { (x: 1.8cm, y: 1.8cm) },
   numbering: "1",
   columns: if tour { 3 } else { 1 },
-  header: context {
-    let pg = counter(page).get().first()
-    if pg != 1 {
-      align(horizon)[
-        #{ university + " (" + members.map(it => it.split().at(-1)).join(", ") + ")" }
-        #h(1fr)
-        #pg
-      ]
-    }
-  },
   footer: context {
     let pg = counter(page).get().first()
     if pg == 1 {
