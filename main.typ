@@ -170,6 +170,16 @@
   margin: if tour { (x: 1cm, y: 2cm) } else { (x: 1.8cm, y: 1.8cm) },
   numbering: "1",
   columns: if tour { 3 } else { 1 },
+  header: context {
+    let pg = counter(page).get().first()
+    if pg != 1 {
+      align(horizon)[
+        #{ university + " (" + members.map(it => it.split().at(-1)).join(", ") + ")" }
+        #h(1fr)
+        #pg
+      ]
+    }
+  },
   footer: context {
     let pg = counter(page).get().first()
     if pg == 1 {
