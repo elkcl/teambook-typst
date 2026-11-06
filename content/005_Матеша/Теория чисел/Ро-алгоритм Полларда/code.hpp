@@ -14,36 +14,29 @@ ll mul(ll a, ll b, ll m) { // m <= 8e18
     return r;
 }
 
-void slow(int n) {
-    for (int i = 2; i * i <= n; i++) {
-        if (n % i == 0) {
-            cout << i << ’ ’ << n / i << endl;
-            exit(0);
-        }
-    }
-    cout << "IMPOSSIBLE" << endl;
-    exit(0);
-}
-
-int main() {
-    cin >> n;
+// -1, если нетривиальный делитель не найден
+ll pollard(ll value) {
+    n = value;
     if (n <= (int) 1e6) {
-        slow(n);
+        for (int i = 2; i * i <= n; i++) {
+            if (n % i == 0) {
+                return i;
+            }
+        }
+        return -1;
     }
     ll C = 2 * pow(n, 1.0 / 4);
     for (int cnt = 0; cnt < 4; cnt++) {
-        x[0] = abs((int) rnd()) % (n - 1) + 1;
-        for (i = 0; i < C; i++) {
+        x[0] = abs((int) rng()) % (n - 1) + 1;
+        for (int i = 0; i < C; i++) {
             x[i + 1] = (mul(x[i], x[i], n) + 3) % n;
         }
         for (int i = 0; i < C; i++) {
             ll g = gcd(abs(x[i] - x[C]), n);
             if (g != 1 && g != n) {
-                cout << g << ’ ’ << n / g << endl;
-                return 0;
+                return g;
             }
         }
     }
-    cout << "IMPOSSIBLE" << endl;
-    return 0;
+    return -1;
 }

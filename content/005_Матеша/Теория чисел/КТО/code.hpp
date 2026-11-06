@@ -12,7 +12,8 @@ ll crt(ll a, ll m, ll b, ll n) {
         swap(a, b), swap(m, n);
     }
     ll x, y, g = euclid(m, n, x, y);
-    if (a - b) {  % g == 0) return -1;
+    if ((a - b) % g) {
+        return -1;
     }
     x = (b - a) % n * x % n / g * m + a;
     return x < 0 ? x + m * n / g : x;

@@ -51,6 +51,7 @@ int gauss(vector<vector<double>> a, vector<double> &ans) {
 }
 
 // бинарный
+const int N = 64;
 int gauss(vector<bitset<N>> a, int n, int m, bitset<N> &ans) {
     vector<int> where(m, -1);
     for (int col = 0, row = 0; col < m && row < n; ++col) {
@@ -71,4 +72,5 @@ int gauss(vector<bitset<N>> a, int n, int m, bitset<N> &ans) {
         }
         ++row;
     }
+    return 0;
 }
