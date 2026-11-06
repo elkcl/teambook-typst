@@ -15,7 +15,7 @@ struct SCC {
         }
         order.push_back(v);
     }
-    
+
     void dfs2(int v) {
         used[v] = true;
         component.push_back(v);
@@ -26,7 +26,9 @@ struct SCC {
         }
     }
 
-    SCC(vvi &g) : adj(g), adj_rev(adj.size()), used(adj.size(), false), order(), component() {
+    SCC(vvi &g)
+        : adj(g), adj_rev(adj.size()), used(adj.size(), false), order(),
+          component() {
         for (int i = 0; i < adj.size(); i++) {
             for (auto to : adj[i]) {
                 adj_rev[to].push_back(i);

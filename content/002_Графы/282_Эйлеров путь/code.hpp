@@ -30,7 +30,7 @@ optional<vi> find_euler_path(vvi &g) {
     stack.push_back(start);
     while (!stack.empty()) {
         int v = stack.back();
-    
+
         if (unused[v].empty()) {
             path.push_back(v);
             stack.pop_back();
