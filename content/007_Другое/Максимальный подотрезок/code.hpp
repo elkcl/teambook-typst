@@ -1,8 +1,9 @@
 #include "preamble.hpp"
-ii max_seg(vi &a) {
+
+pii max_seg(vi &a) {
     int ans_l = 0, ans_r = 0, minus_pos = -1;
     ll ans = a[0], sum = 0;
-    for (int r = 0; r < n; ++r) {
+    for (int r = 0; r < a.size(); ++r) {
         sum += a[r];
         if (sum > ans) {
             ans = sum;
