@@ -16,16 +16,17 @@ struct DSU {
         return p[x] = root(p[x]);
     }
 
-    void unite(int a, int b) {
+    bool unite(int a, int b) {
         a = root(a);
         b = root(b);
         if (a == b) {
-            return;
+            return false;
         }
         if (sz[a] < sz[b]) {
             swap(a, b);
         }
         p[b] = a;
         sz[a] += sz[b];
+        return true;
     }
 };

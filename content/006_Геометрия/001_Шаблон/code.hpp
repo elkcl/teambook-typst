@@ -222,7 +222,7 @@ bool Triangle::contains(Point p) const {
     ld p1 = (b - a) % (p - a);
     ld p2 = (c - b) % (p - b);
     ld p3 = (a - c) % (p - c);
-    return p1 >= -EPS && p2 >= -EPS && p3 >= -EPS;
+    return (p1 >= -EPS && p2 >= -EPS && p3 >= -EPS) || (p1 <= EPS && p2 <= EPS && p3 <= EPS);
 }
 
 struct ConvexPolygon {
