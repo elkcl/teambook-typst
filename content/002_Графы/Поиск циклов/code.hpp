@@ -1,9 +1,9 @@
 #include "preamble.hpp"
-struct edge {
+struct Edge {
     int to, id;
 };
 
-int dfs(vector<vector<edge>> &g, vector<char> &color, vector<edge> &p, int v) {
+int dfs(vector<vector<Edge>> &g, vector<char> &color, vector<Edge> &p, int v) {
     color[v] = 1;
     for (auto [to, e] : g[v]) {
         if (color[to] == 0) {
@@ -24,10 +24,10 @@ int dfs(vector<vector<edge>> &g, vector<char> &color, vector<edge> &p, int v) {
     return -1;
 }
 
-optional<pair<vi, vi>> find_cycles(vector<vector<edge>> &g) {
+optional<pair<vi, vi>> find_cycles(vector<vector<Edge>> &g) {
     size_t n = g.size();
     vector<char> color(n, 0);
-    vector<edge> p(n, {-1, -1});
+    vector<Edge> p(n, {-1, -1});
     for (size_t v = 0; v < n; ++v) {
         if (color[v] != 0) {
             continue;

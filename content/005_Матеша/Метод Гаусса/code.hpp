@@ -44,7 +44,7 @@ int gauss(vector<vector<double>> a, vector<double> &ans) {
     }
     for (int i = 0; i < m; ++i) {
         if (where[i] == -1) {
-            return inf;
+            return INF;
         }
     }
     return 1;

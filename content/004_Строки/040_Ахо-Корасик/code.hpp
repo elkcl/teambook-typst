@@ -2,11 +2,11 @@
 // Здесь код какой-то задачи на Ахо-Корасик
 // Вряд ли понадобится, и я уже не помню, что
 // здесь происходит
-struct query {
+struct Query {
     int l, r;
 };
 
-bool operator<(const query &a, const query &b) {
+bool operator<(const Query &a, const Query &b) {
     if (a.l == b.l) {
         return a.r < b.r;
     }
@@ -97,12 +97,12 @@ struct Trie {
     }
 };
 
-struct vertex {
+struct Vertex {
     vi e;
     int d;
 };
 
-void dfs(vector<vertex> &g, vi &tin, vi &tout, int &t, int v, int p, int d) {
+void dfs(vector<Vertex> &g, vi &tin, vi &tout, int &t, int v, int p, int d) {
     tin[v] = t++;
     g[v].d = d;
     for (int to : g[v].e) {
@@ -132,7 +132,7 @@ int32_t main() {
         curr = trie.t[curr].next[s[i] - OFF];
         v[i] = curr;
     }
-    vector<vertex> g(len + 1);
+    vector<Vertex> g(len + 1);
     for (int i = len - 1; i >= 0; --i) {
         int ln = -1;
         int currv = v[i];

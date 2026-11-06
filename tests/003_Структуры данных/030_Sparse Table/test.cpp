@@ -13,7 +13,7 @@ int brute(const vi &values, int left, int right) {
 }
 
 void expect_all(const vi &values) {
-    sparse_table table(values);
+    SparseTable table(values);
     int n = (int)values.size();
     for (int left = 0; left < n; ++left) {
         for (int right = left + 1; right <= n; ++right) {
@@ -33,7 +33,7 @@ vi pattern(int n, int kind, std::mt19937 &rng) {
         } else if (kind == 2) {
             values[i] = 7;
         } else if (kind == 3) {
-            values[i] = (i % 2 == 0) ? inf + 5 : -(inf + 3);
+            values[i] = (i % 2 == 0) ? INF + 5 : -(INF + 3);
         } else if (kind == 4) {
             values[i] = (i * 17) % 9 - 4;
         } else {
@@ -44,7 +44,7 @@ vi pattern(int n, int kind, std::mt19937 &rng) {
         values[0] = INT_MIN;
         values[n - 1] = INT_MAX;
         if (n > 2) {
-            values[n / 2] = inf;
+            values[n / 2] = INF;
         }
     }
     return values;
@@ -53,18 +53,18 @@ vi pattern(int n, int kind, std::mt19937 &rng) {
 }  // namespace
 
 TEST(a_003_Struktury_dannyh_030_Sparse_Table, EmptyAndSingle) {
-    sparse_table empty(vi{});
+    SparseTable empty(vi{});
     EXPECT_EQ(empty.n, 0);
 
-    sparse_table one(vi{INT_MIN});
+    SparseTable one(vi{INT_MIN});
     EXPECT_EQ(one.get(0, 1), INT_MIN);
-    sparse_table other(vi{inf + 1});
-    EXPECT_EQ(other.get(0, 1), inf + 1);
+    SparseTable other(vi{INF + 1});
+    EXPECT_EQ(other.get(0, 1), INF + 1);
 }
 
 TEST(a_003_Struktury_dannyh_030_Sparse_Table, HandRanges) {
     vi values{5, 1, 4, 1, 8, -3, 2};
-    sparse_table table(values);
+    SparseTable table(values);
     EXPECT_EQ(table.get(0, 1), 5);
     EXPECT_EQ(table.get(0, 7), -3);
     EXPECT_EQ(table.get(1, 4), 1);
@@ -97,7 +97,7 @@ TEST(a_003_Struktury_dannyh_030_Sparse_Table, PowersOfTwoLengths) {
 }
 
 TEST(a_003_Struktury_dannyh_030_Sparse_Table, SentinelDoesNotReplaceRealValues) {
-    vi values{inf, inf, inf + 1, INT_MAX, inf - 1};
+    vi values{INF, INF, INF + 1, INT_MAX, INF - 1};
     expect_all(values);
     vi negatives{INT_MIN, -1, INT_MIN, 0};
     expect_all(negatives);
@@ -109,7 +109,7 @@ TEST(a_003_Struktury_dannyh_030_Sparse_Table, MinimumAtEndsAndDuplicates) {
         values[0] = -10;
         values[n - 1] = -10;
         values[n / 2] = -3;
-        sparse_table table(values);
+        SparseTable table(values);
         EXPECT_EQ(table.get(0, n), -10);
         EXPECT_EQ(table.get(1, n - 1), -3);
         EXPECT_EQ(table.get(1, n / 2), 5);
@@ -126,7 +126,7 @@ TEST(a_003_Struktury_dannyh_030_Sparse_Table, RandomQueries) {
     std::mt19937 rng(3012);
     for (int n : {100, 257, 1000, 4095, 4096, 4097}) {
         vi values = pattern(n, 5, rng);
-        sparse_table table(values);
+        SparseTable table(values);
         for (int step = 0; step < 400; ++step) {
             int left = (int)(rng() % n);
             int right = left + 1 + (int)(rng() % (n - left));
@@ -147,9 +147,9 @@ TEST(a_003_Struktury_dannyh_030_Sparse_Table, LoadBuildAndQueries) {
     }
     values[0] = INT_MAX;
     values[n - 1] = INT_MIN;
-    values[n / 3] = inf;
-    values[2 * n / 3] = inf + 7;
-    sparse_table table(values);
+    values[n / 3] = INF;
+    values[2 * n / 3] = INF + 7;
+    SparseTable table(values);
     EXPECT_EQ(table.get(0, n), INT_MIN);
     for (int i = 0; i < n; i += 1000) {
         EXPECT_EQ(table.get(i, i + 1), values[i]);

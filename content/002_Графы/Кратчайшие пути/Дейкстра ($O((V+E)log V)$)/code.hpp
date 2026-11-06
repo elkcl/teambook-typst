@@ -1,7 +1,7 @@
 #include "preamble.hpp"
 
 vector<int> dijkstra(vector<vpii> &g, int n, int s) {
-    vector<int> d(n, inf);
+    vector<int> d(n, INF);
     d[s] = 0;
     priority_queue<pii, vpii, greater<pii>> q{};
     q.push({0, s});
@@ -22,7 +22,7 @@ vector<int> dijkstra(vector<vpii> &g, int n, int s) {
 }
 
 vector<int> set_dijkstra(vector<vpii> &g, int n, int s) {
-    vector<int> d(n, inf);
+    vector<int> d(n, INF);
     d[s] = 0;
     set<pii> q{{0, s}};
     while (!q.empty()) {

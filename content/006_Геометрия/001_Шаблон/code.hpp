@@ -56,7 +56,7 @@ struct Line {
     }
 
     bool contains(Point a) const;
-    int halfPlane(Point p1) const;
+    int half_plane(Point p1) const;
 };
 
 Point perp(Point p, Line l) {
@@ -83,7 +83,7 @@ pair<Point, int> operator^(Line a, Line b) {
     }
 }
 
-int Line::halfPlane(Point p1) const { return sgn(n % (p1 - p)); }
+int Line::half_plane(Point p1) const { return sgn(n % (p1 - p)); }
 
 ld distance(Point p, Line l) { return perp(p, l).absv(); }
 

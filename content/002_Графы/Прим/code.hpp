@@ -1,7 +1,7 @@
 #include "preamble.hpp"
-bool used[maxn];
-vector<pair<int, int>> g[maxn];
-int min_edge[maxn] = {inf}, best_edge[maxn];
+bool used[MAXN];
+vector<pair<int, int>> g[MAXN];
+int min_edge[MAXN] = {INF}, best_edge[MAXN];
 min_edge[0] = 0;
 // ...
 for (int i = 0; i < n; i++) {

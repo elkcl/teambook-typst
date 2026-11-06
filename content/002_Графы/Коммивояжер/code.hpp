@@ -20,7 +20,7 @@ for (int mask = 1; mask < (1 << n); mask++) {
     }
 }
 int mask = (1 << n) - 1;
-ll answer = INF;
+ll answer = INF_LL;
 for (int v = 0; v < n; v++) {
     if (dp[mask][v] < answer) {
         answer = dp[mask][v];

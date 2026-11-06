@@ -1,10 +1,10 @@
 #include "preamble.hpp"
 // ДО снизу от peltorator
-struct segtree {
+struct Segtree {
     int sz;
     vll t;
 
-    segtree(const vi &a) {
+    Segtree(const vi &a) {
         sz = a.size();
         t.resize(sz * 2, 0);
         build(a);

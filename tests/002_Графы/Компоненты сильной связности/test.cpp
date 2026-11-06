@@ -60,7 +60,7 @@ vvi oracle(const vvi &g) {
 void expect_partition(const vvi &g) {
     vvi snapshot = g;
     SCC solver(snapshot);
-    vvi got = normalize(solver.find_SCC());
+    vvi got = normalize(solver.find_scc());
     vvi exp = oracle(g);
     if (got != exp) {
         ADD_FAILURE() << "компонент " << got.size() << ", ожидалось " << exp.size();
@@ -226,8 +226,8 @@ TEST(a_002_Grafy_Komponenty_silnoy_svyaznosti, RepeatedFindReturnsSamePartition)
     vvi snapshot = g;
     SCC solver(g);
     vvi exp = oracle(snapshot);
-    EXPECT_EQ(normalize(solver.find_SCC()), exp);
-    EXPECT_EQ(normalize(solver.find_SCC()), exp);
+    EXPECT_EQ(normalize(solver.find_scc()), exp);
+    EXPECT_EQ(normalize(solver.find_scc()), exp);
 }
 
 TEST(a_002_Grafy_Komponenty_silnoy_svyaznosti, StressRandomDigraphs) {
@@ -251,7 +251,7 @@ TEST(a_002_Grafy_Komponenty_silnoy_svyaznosti, LoadKnownPartitions) {
         chain_exp[i] = {i};
     }
     SCC chain_solver(chain);
-    EXPECT_EQ(normalize(chain_solver.find_SCC()), normalize(chain_exp));
+    EXPECT_EQ(normalize(chain_solver.find_scc()), normalize(chain_exp));
 
     vvi cycle(n);
     for (int i = 0; i < n; ++i) {
@@ -260,7 +260,7 @@ TEST(a_002_Grafy_Komponenty_silnoy_svyaznosti, LoadKnownPartitions) {
     vi cycle_vertices(n);
     std::iota(cycle_vertices.begin(), cycle_vertices.end(), 0);
     SCC cycle_solver(cycle);
-    EXPECT_EQ(normalize(cycle_solver.find_SCC()), vvi{cycle_vertices});
+    EXPECT_EQ(normalize(cycle_solver.find_scc()), vvi{cycle_vertices});
 }
 
 TEST(a_002_Grafy_Komponenty_silnoy_svyaznosti, LoadTwoCyclesAndRandom) {
@@ -278,7 +278,7 @@ TEST(a_002_Grafy_Komponenty_silnoy_svyaznosti, LoadTwoCyclesAndRandom) {
     vvi exp{left, right};
 
     SCC solver(linked);
-    EXPECT_EQ(normalize(solver.find_SCC()), normalize(exp));
+    EXPECT_EQ(normalize(solver.find_scc()), normalize(exp));
 
     std::mt19937 rng(1102);
     expect_partition(random_digraph(40, 200, rng));

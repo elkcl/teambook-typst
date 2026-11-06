@@ -20,7 +20,7 @@ struct SuffixAutomaton {
 
     SuffixAutomaton() { nodes.emplace_back(-1, -1); }
 
-    int addChar(int x) {
+    int add_char(int x) {
         int cur = sz(nodes);
         nodes.emplace_back(0, last);
         int p = last;

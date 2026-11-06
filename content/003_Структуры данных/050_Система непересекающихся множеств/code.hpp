@@ -1,9 +1,9 @@
 #include "preamble.hpp"
-struct dsu {
+struct DSU {
     vi p;
     vi sz;
 
-    dsu(int n) {
+    DSU(int n) {
         p.resize(n);
         sz.resize(n, 1);
         iota(all(p), 0);

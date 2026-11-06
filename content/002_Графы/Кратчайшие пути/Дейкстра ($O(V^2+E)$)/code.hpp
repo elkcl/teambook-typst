@@ -1,7 +1,7 @@
 #include "preamble.hpp"
 
 vi dijkstra(vector<vpii> &g, int n, int s) {
-    vi d(n, inf);
+    vi d(n, INF);
     vc used(n, false);
     d[s] = 0;
     for (int i = 0; i < n; i++) {
@@ -11,7 +11,7 @@ vi dijkstra(vector<vpii> &g, int n, int s) {
                 v = u;
             }
         }
-        if (d[v] == inf) {
+        if (d[v] == INF) {
             break;
         }
         used[v] = true;

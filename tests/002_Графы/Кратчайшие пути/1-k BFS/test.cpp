@@ -4,11 +4,11 @@
 namespace {
 #include "content/002_Графы/Кратчайшие пути/1-k BFS/code.hpp"
 
-const long long kUnreach = (long long)4e18;
+const long long K_UNREACH = (long long)4e18;
 
 std::vector<long long> reference(const vector<vpii> &g, int s) {
     int n = (int)g.size();
-    std::vector<long long> d(n, kUnreach);
+    std::vector<long long> d(n, K_UNREACH);
     if (s < 0 || s >= n) {
         return d;
     }
@@ -39,7 +39,7 @@ bool expect_dist(const vi &got, const std::vector<long long> &exp) {
         return false;
     }
     for (int i = 0; i < (int)exp.size(); ++i) {
-        long long want = exp[i] >= kUnreach / 2 ? inf : exp[i];
+        long long want = exp[i] >= K_UNREACH / 2 ? INF : exp[i];
         if ((long long)got[i] != want) {
             ADD_FAILURE() << "d[" << i << "] = " << got[i] << ", ожидалось " << want;
             return false;
@@ -185,7 +185,7 @@ TEST(a_002_Grafy_Kratchayshie_puti_1_k_BFS, DirectEdgeHeavierThanKStillStored) {
 
 TEST(a_002_Grafy_Kratchayshie_puti_1_k_BFS, EdgeJustBelowSentinel) {
     vector<vpii> g(2);
-    g[0].push_back({1, inf - 1});
+    g[0].push_back({1, INF - 1});
     ASSERT_TRUE(check(g, 0, 1));
 }
 
@@ -197,7 +197,7 @@ TEST(a_002_Grafy_Kratchayshie_puti_1_k_BFS, HeavierThanKStopsTheWalk) {
         g[1].push_back({2, 5});
         g[2].push_back({3, 1});
         auto original = g;
-        EXPECT_EQ(bfs1k(g, 0, 1), vi({0, 1, 6, inf}));
+        EXPECT_EQ(bfs1k(g, 0, 1), vi({0, 1, 6, INF}));
         EXPECT_EQ(g, original);
     }
     {
@@ -206,7 +206,7 @@ TEST(a_002_Grafy_Kratchayshie_puti_1_k_BFS, HeavierThanKStopsTheWalk) {
         g[0].push_back({1, 1});
         g[1].push_back({2, 1});
         auto original = g;
-        EXPECT_EQ(bfs1k(g, 0, 0), vi({0, 1, inf}));
+        EXPECT_EQ(bfs1k(g, 0, 0), vi({0, 1, INF}));
         EXPECT_EQ(g, original);
     }
 }
@@ -219,7 +219,7 @@ TEST(a_002_Grafy_Kratchayshie_puti_1_k_BFS, LoopLimitOverflowSkipsSearch) {
     g[0].push_back({1, 1});
     g[1].push_back({2, 1});
     auto original = g;
-    vi want(n, inf);
+    vi want(n, INF);
     want[0] = 0;
     EXPECT_EQ(bfs1k(g, 0, k), want);
     EXPECT_EQ(g, original);

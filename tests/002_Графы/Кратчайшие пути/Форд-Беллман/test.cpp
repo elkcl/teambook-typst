@@ -4,7 +4,7 @@
 namespace {
 #include "content/002_Графы/Кратчайшие пути/Форд-Беллман/code.hpp"
 
-const long long kUnreach = (long long)4e18;
+const long long K_UNREACH = (long long)4e18;
 
 struct Reference {
     bool negative_cycle = false;
@@ -14,7 +14,7 @@ struct Reference {
 Reference reference(const vector<vpii> &g, int s) {
     int n = (int)g.size();
     Reference out;
-    out.dist.assign(n, kUnreach);
+    out.dist.assign(n, K_UNREACH);
     if (s < 0 || s >= n) {
         return out;
     }
@@ -22,7 +22,7 @@ Reference reference(const vector<vpii> &g, int s) {
     for (int iter = 0; iter < n; ++iter) {
         bool relaxed = false;
         for (int v = 0; v < n; ++v) {
-            if (out.dist[v] >= kUnreach / 2) {
+            if (out.dist[v] >= K_UNREACH / 2) {
                 continue;
             }
             for (auto [to, w] : g[v]) {
@@ -63,7 +63,7 @@ bool expect_result(const vi &got, const Reference &exp) {
         return false;
     }
     for (int i = 0; i < (int)got.size(); ++i) {
-        long long want = exp.dist[i] >= kUnreach / 2 ? inf : exp.dist[i];
+        long long want = exp.dist[i] >= K_UNREACH / 2 ? INF : exp.dist[i];
         if ((long long)got[i] != want) {
             ADD_FAILURE() << "d[" << i << "] = " << got[i] << ", ожидалось " << want;
             return false;
@@ -224,14 +224,14 @@ TEST(a_002_Grafy_Kratchayshie_puti_Ford_Bellman, UnreachableHeavyEdgeDoesNotCorr
 
 TEST(a_002_Grafy_Kratchayshie_puti_Ford_Bellman, EdgeJustBelowSentinel) {
     vector<vpii> g(2);
-    g[0].push_back({1, inf - 1});
+    g[0].push_back({1, INF - 1});
     check(g, 0);
 }
 
 TEST(a_002_Grafy_Kratchayshie_puti_Ford_Bellman, PathSumJustBelowSentinel) {
     vector<vpii> g(3);
-    g[0].push_back({1, inf / 2});
-    g[1].push_back({2, inf / 2 - 1});
+    g[0].push_back({1, INF / 2});
+    g[1].push_back({2, INF / 2 - 1});
     check(g, 0);
 }
 
@@ -244,12 +244,12 @@ TEST(a_002_Grafy_Kratchayshie_puti_Ford_Bellman, PathSumBelowSentinelStillExact)
 
 TEST(a_002_Grafy_Kratchayshie_puti_Ford_Bellman, HeavyNegativeCycleMustBeReported) {
     vector<vpii> loop(2);
-    loop[0].push_back({0, -inf / 2});
+    loop[0].push_back({0, -INF / 2});
     check(loop, 0);
 
     vector<vpii> pair(2);
-    pair[0].push_back({1, -inf / 2});
-    pair[1].push_back({0, -inf / 2});
+    pair[0].push_back({1, -INF / 2});
+    pair[1].push_back({0, -INF / 2});
     check(pair, 0);
 }
 

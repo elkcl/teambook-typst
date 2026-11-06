@@ -4,11 +4,11 @@
 namespace {
 #include "content/002_Графы/Кратчайшие пути/Дейкстра ($O(V^2+E)$)/code.hpp"
 
-const long long kUnreach = (long long)4e18;
+const long long K_UNREACH = (long long)4e18;
 
 std::vector<long long> reference(const vector<vpii> &g, int s) {
     int n = (int)g.size();
-    std::vector<long long> d(n, kUnreach);
+    std::vector<long long> d(n, K_UNREACH);
     if (s < 0 || s >= n) {
         return d;
     }
@@ -39,7 +39,7 @@ bool expect_dist(const vi &got, const std::vector<long long> &exp) {
         return false;
     }
     for (int i = 0; i < (int)exp.size(); ++i) {
-        long long want = exp[i] >= kUnreach / 2 ? inf : exp[i];
+        long long want = exp[i] >= K_UNREACH / 2 ? INF : exp[i];
         if ((long long)got[i] != want) {
             ADD_FAILURE() << "d[" << i << "] = " << got[i] << ", ожидалось " << want;
             return false;
@@ -177,23 +177,23 @@ TEST(a_002_Grafy_Kratchayshie_puti_Deykstra_O_V_2_E, ChainStarAndCycle) {
 TEST(a_002_Grafy_Kratchayshie_puti_Deykstra_O_V_2_E, HeavyDetourMustNotBeatShortEdge) {
     vector<vpii> g(3);
     g[0].push_back({2, 10});
-    g[0].push_back({1, inf / 2 - 1});
-    g[1].push_back({2, inf / 2 - 1});
+    g[0].push_back({1, INF / 2 - 1});
+    g[1].push_back({2, INF / 2 - 1});
     check(g, 0);
 }
 
 TEST(a_002_Grafy_Kratchayshie_puti_Deykstra_O_V_2_E, UnreachableHeavyEdgeMustNotCorrupt) {
     vector<vpii> g(4);
     g[0].push_back({1, 7});
-    g[2].push_back({1, inf - 1});
-    g[3].push_back({1, inf - 1});
+    g[2].push_back({1, INF - 1});
+    g[3].push_back({1, INF - 1});
     check(g, 0);
     check(g, 1);
 }
 
 TEST(a_002_Grafy_Kratchayshie_puti_Deykstra_O_V_2_E, DistanceNearSentinel) {
     vector<vpii> g(3);
-    g[0].push_back({1, inf - 5});
+    g[0].push_back({1, INF - 5});
     g[1].push_back({2, 0});
     check(g, 0);
     g[1].back().second = 4;

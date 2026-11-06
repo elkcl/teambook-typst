@@ -1,6 +1,6 @@
 #include "preamble.hpp"
-const int maxc = 500010;
-ll n, x[maxc];
+const int MAXC = 500010;
+ll n, x[MAXC];
 
 ll mul(ll a, ll b, ll m) { // m <= 8e18
     ll k = ((ld) a * b) / m;
@@ -28,7 +28,7 @@ void slow(int n) {
 int main() {
     cin >> n;
     if (n <= (int) 1e6) {
-        Slow(n);
+        slow(n);
     }
     ll C = 2 * pow(n, 1.0 / 4);
     for (int cnt = 0; cnt < 4; cnt++) {

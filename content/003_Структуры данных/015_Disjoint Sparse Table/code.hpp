@@ -2,7 +2,7 @@
 /*! T is the type of the elements
  * Monoid is the operation functor type
  * identity is the identity element of the Monoid
- * (e.g. 0 for addition and inf for minimum)
+ * (e.g. 0 for addition and INF for minimum)
  */
 template <typename T, typename Monoid, auto identity>
 struct DisjointSparseTable {

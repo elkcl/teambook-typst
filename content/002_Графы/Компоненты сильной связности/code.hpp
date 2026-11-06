@@ -34,7 +34,7 @@ struct SCC {
         }
     }
 
-    vvi find_SCC() {
+    vvi find_scc() {
         used.assign(adj.size(), false);
         order.clear();
         component.clear();

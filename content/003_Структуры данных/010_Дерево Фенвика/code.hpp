@@ -1,7 +1,7 @@
 #include "preamble.hpp"
 //  В дереве используется 1-индексация.
 struct FenwickTree {
-    static int F(int x) { return x & -x; }
+    static int f(int x) { return x & -x; }
 
     int n;
     vector<int> t;
@@ -10,14 +10,14 @@ struct FenwickTree {
 
     void update(int i,
                 int d) { // a[i] += d, i in [1; n]
-        for (; i <= n; i += F(i)) {
+        for (; i <= n; i += f(i)) {
             t[i] += d;
         }
     }
 
     int get(int r) { // сумма на отрезке [1; r]
         int res = 0;
-        for (; r > 0; r -= F(r)) {
+        for (; r > 0; r -= f(r)) {
             res += t[r];
         }
         return res;

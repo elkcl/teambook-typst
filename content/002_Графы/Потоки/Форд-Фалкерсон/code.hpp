@@ -11,7 +11,6 @@ struct Edge {
     }
 };
 
-const int MAXN = 1e5 + 10;
 int n, m, s, f;
 vector<Edge *> g[MAXN];
 vector<bool> used(MAXN);

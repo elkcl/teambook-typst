@@ -2,13 +2,13 @@
 // ДО с массовыми преобразованиями a[i] = k * a[i] + b
 // и суммой на отрезке по модулю M.
 
-struct affine {
+struct Affine {
     ll k = 1, b = 0;
 };
 
 ll combine(ll a, ll b) { return (a + b) % M; }
 
-void apply_push(int v, int l, int r, const affine &f) {
+void apply_push(int v, int l, int r, const Affine &f) {
     t[v] = (t[v] * f.k + f.b * (r - l)) % M;
 
     need_push[v].k = need_push[v].k * f.k % M;

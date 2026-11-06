@@ -1,17 +1,17 @@
 #include "preamble.hpp"
-struct sparse_table {
+struct SparseTable {
     int n;
     vi logs;
     vvi sp;
 
-    sparse_table(const vi &a) : n(sz(a)) {
+    SparseTable(const vi &a) : n(sz(a)) {
         logs.resize(n + 1, 0);
 
         for (int i = 2; i <= n; ++i) {
             logs[i] = logs[i / 2] + 1;
         }
 
-        sp.resize(n, vi(logs[n] + 1, inf));
+        sp.resize(n, vi(logs[n] + 1, INF));
 
         for (int i = 0; i < n; ++i) {
             sp[i][0] = a[i];

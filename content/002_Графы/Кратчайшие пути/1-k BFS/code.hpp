@@ -2,7 +2,7 @@
 
 vi bfs1k(vector<vpii> &g, int s, int k) {
     int n = g.size();
-    vi d(n, inf);
+    vi d(n, INF);
     d[s] = 0;
     vector<queue<int>> q(k + 1);
     q[0].push(s);

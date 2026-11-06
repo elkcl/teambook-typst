@@ -1,22 +1,22 @@
 #include "preamble.hpp"
 // границы и номер запроса, на который нужно
 // ответить
-struct query {
+struct Query {
     int l, r, idx;
 };
 
-int a[maxn],
-    ans[maxq]; // исходный массив и массив
+int a[MAXN],
+    ans[MAXQ]; // исходный массив и массив
                // ответов на запросы
-vector<query> b[c];
+vector<Query> b[c];
 // где-то в main:
-for (query q : queries) {
+for (Query q : queries) {
     b[q.l / c].push_back(q);
 }
 for (int i = 0; i < c; i++) {
-    sort(b[i].begin(), b[i].end(), [](query a, query b) { return a.r < b.r; });
+    sort(b[i].begin(), b[i].end(), [](Query a, Query b) { return a.r < b.r; });
 }
-int cnt[maxn];
+int cnt[MAXN];
 int res;
 
 void add(int k) {
@@ -36,7 +36,7 @@ for (int i = 0; i < c; i++) {
     int l = i * c, r = i * c - 1;
     memset(cnt, 0, sizeof cnt);
     res = 0;
-    for (query q : b[i]) {
+    for (Query q : b[i]) {
         // пока правая граница не дошла до границы
         // запроса
         while (r < q.r) {

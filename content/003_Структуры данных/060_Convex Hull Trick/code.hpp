@@ -1,30 +1,30 @@
 #include "preamble.hpp"
-struct cht {
-    struct line {
+struct CHT {
+    struct Line {
         ll k, b;
 
-        line() {}
+        Line() {}
 
-        line(ll a, ll _b) { k = a, b = _b; }
+        Line(ll a, ll _b) { k = a, b = _b; }
 
         ll get(ll x) { return k * x + b; }
     };
 
-    vector<line> lines; // прямые нижней огибающей
+    vector<Line> lines; // прямые нижней огибающей
 
     vll dots; // ceil(x-коорд) с которой прямая оптимальна
 
-    ll cross(line a, line b) { // a.k > b.k
+    ll cross(Line a, Line b) { // a.k > b.k
         return (b.b - a.b) / (a.k - b.k) + ((b.b - a.b) % (a.k - b.k) > 0);
     }
 
-    void add(line cur) {
+    void add(Line cur) {
         while (!lines.empty() && cross(lines.back(), cur) <= dots.back()) {
             lines.pop_back();
             dots.pop_back();
         }
         if (lines.empty()) {
-            dots.push_back(-inf);
+            dots.push_back(-INF);
         } else {
             dots.push_back(cross(lines.back(), cur));
         }

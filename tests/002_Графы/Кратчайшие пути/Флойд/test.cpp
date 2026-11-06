@@ -4,11 +4,11 @@
 namespace {
 #include "content/002_Графы/Кратчайшие пути/Флойд/code.hpp"
 
-const long long kUnreach = (long long)4e18;
+const long long K_UNREACH = (long long)4e18;
 
 std::vector<std::vector<long long>> reference(const vector<vpii> &g) {
     int n = (int)g.size();
-    std::vector<std::vector<long long>> d(n, std::vector<long long>(n, kUnreach));
+    std::vector<std::vector<long long>> d(n, std::vector<long long>(n, K_UNREACH));
     for (int i = 0; i < n; ++i) {
         d[i][i] = 0;
         for (auto [j, w] : g[i]) {
@@ -17,11 +17,11 @@ std::vector<std::vector<long long>> reference(const vector<vpii> &g) {
     }
     for (int k = 0; k < n; ++k) {
         for (int i = 0; i < n; ++i) {
-            if (d[i][k] >= kUnreach / 2) {
+            if (d[i][k] >= K_UNREACH / 2) {
                 continue;
             }
             for (int j = 0; j < n; ++j) {
-                if (d[k][j] >= kUnreach / 2) {
+                if (d[k][j] >= K_UNREACH / 2) {
                     continue;
                 }
                 d[i][j] = std::min(d[i][j], d[i][k] + d[k][j]);
@@ -51,7 +51,7 @@ bool expect_matrix(const vvi &got, const std::vector<std::vector<long long>> &ex
             return false;
         }
         for (int j = 0; j < (int)exp[i].size(); ++j) {
-            long long want = exp[i][j] >= kUnreach / 2 ? inf : exp[i][j];
+            long long want = exp[i][j] >= K_UNREACH / 2 ? INF : exp[i][j];
             if ((long long)got[i][j] != want) {
                 ADD_FAILURE() << "dist[" << i << "][" << j << "] = " << got[i][j] << ", ожидалось " << want;
                 return false;
@@ -163,31 +163,31 @@ TEST(a_002_Grafy_Kratchayshie_puti_Floyd, NegativeEdgesNoCycle) {
 
 TEST(a_002_Grafy_Kratchayshie_puti_Floyd, LongNegativePathIsNotClamped) {
     vector<vpii> g(4);
-    g[0].push_back({1, -(inf / 2 - 1)});
-    g[1].push_back({2, -(inf / 2 - 1)});
+    g[0].push_back({1, -(INF / 2 - 1)});
+    g[1].push_back({2, -(INF / 2 - 1)});
     g[2].push_back({3, 1});
     check(g);
 }
 
 TEST(a_002_Grafy_Kratchayshie_puti_Floyd, NegativeSumJustInsideSentinel) {
     vector<vpii> g(3);
-    g[0].push_back({1, -inf / 2});
-    g[1].push_back({2, -(inf / 2 - 1)});
+    g[0].push_back({1, -INF / 2});
+    g[1].push_back({2, -(INF / 2 - 1)});
     check(g);
 }
 
 TEST(a_002_Grafy_Kratchayshie_puti_Floyd, HeavyDetourMustNotBeatShortEdge) {
     vector<vpii> g(3);
     g[0].push_back({2, 10});
-    g[0].push_back({1, inf / 2 - 1});
-    g[1].push_back({2, inf / 2 - 1});
+    g[0].push_back({1, INF / 2 - 1});
+    g[1].push_back({2, INF / 2 - 1});
     check(g);
 }
 
 TEST(a_002_Grafy_Kratchayshie_puti_Floyd, SumOfLargePositiveEdges) {
     vector<vpii> g(3);
-    g[0].push_back({1, inf / 2});
-    g[1].push_back({2, inf / 2 - 1});
+    g[0].push_back({1, INF / 2});
+    g[1].push_back({2, INF / 2 - 1});
     check(g);
 }
 

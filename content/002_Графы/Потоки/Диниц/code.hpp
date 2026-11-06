@@ -12,13 +12,12 @@ struct Edge {
     }
 };
 
-const int MAXN = 1000;
 int n, m, s, f;
 vector<Edge *> g[MAXN];
 vector<ll> d(MAXN), p(MAXN);
 
 bool bfs() {
-    d.assign(MAXN, INF);
+    d.assign(MAXN, INF_LL);
     d[s] = 0;
     queue<int> q;
     q.push(s);
@@ -26,16 +25,16 @@ bool bfs() {
         int v = q.front();
         q.pop();
         for (auto e : g[v]) {
-            if (e->f < e->c && d[e->u] == INF) {
+            if (e->f < e->c && d[e->u] == INF_LL) {
                 d[e->u] = d[v] + 1;
                 q.push(e->u);
             }
         }
     }
-    return d[f] != INF;
+    return d[f] != INF_LL;
 }
 
-int dfs(int v, ll min_flow = INF) {
+int dfs(int v, ll min_flow = INF_LL) {
     if (v == f) {
         return min_flow;
     }
@@ -55,7 +54,7 @@ int dfs(int v, ll min_flow = INF) {
 
 vector<Edge *> edges;
 
-void addEdge(int v, int u, ll w = 0) {
+void add_edge(int v, int u, ll w = 0) {
     Edge *normal = new Edge(u, 0, w);
     Edge *rev = new Edge(v, 0, 0);
     normal->rev = rev;
@@ -75,7 +74,7 @@ int32_t main() {
         int v, u;
         ll w;
         cin >> v >> u >> w;
-        addEdge(v - 1, u - 1, w);
+        add_edge(v - 1, u - 1, w);
     }
     ll flow = 0;
     while (bfs()) {

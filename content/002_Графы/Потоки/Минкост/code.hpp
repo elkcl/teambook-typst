@@ -15,13 +15,12 @@ struct Edge {
     }
 };
 
-const int MAXN = 150;
 ll ans = 0;
 int n, m, s, f;
 vector<Edge *> edges, p(MAXN);
 vector<ll> d(MAXN);
 
-void addEdge(int v, int u, ll c = 0, ll w = 0) {
+void add_edge(int v, int u, ll c = 0, ll w = 0) {
     Edge *normal = new Edge(v, u, 0, c, w);
     Edge *rev = new Edge(u, v, 0, 0, -w);
     normal->rev = rev;
@@ -31,10 +30,10 @@ void addEdge(int v, int u, ll c = 0, ll w = 0) {
 }
 
 ll ford_bellman() {
-    d.assign(MAXN, INF);
+    d.assign(MAXN, INF_LL);
     p.assign(MAXN, nullptr);
     d[s] = 0;
-    ll flow = INF;
+    ll flow = INF_LL;
     for (int i = 1; i < n; i++) {
         for (auto e : edges) {
             if (e->c > e->f && d[e->u] > d[e->v] + e->w) {
@@ -44,7 +43,7 @@ ll ford_bellman() {
             }
         }
     }
-    if (d[f] == INF) {
+    if (d[f] == INF_LL) {
         return 0;
     }
     Edge *e = p[f];
@@ -68,7 +67,7 @@ int32_t main() {
         int v, u;
         ll c, w;
         cin >> v >> u >> c >> w;
-        addEdge(v - 1, u - 1, c, w);
+        add_edge(v - 1, u - 1, c, w);
     }
     ll flow = 0;
     while (true) {

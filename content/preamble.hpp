@@ -25,7 +25,7 @@ mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
 
 ll rndll() { return uniform_int_distribution<ll>(LLONG_MIN, LLONG_MAX)(rng); }
 
-const int maxn = 1e5;
-const int inf = 1e9;
-const ll INF = 1e18;
+const int MAXN = 1e5;
+const int INF = 1e9;
+const ll INF_LL = 1e18;
 const ld EPS = 1e-10;
