@@ -9,6 +9,7 @@ using vll = vector<ll>;
 using vpii = vector<pii>;
 using vpll = vector<pll>;
 using vvi = vector<vi>;
+using vvll = vector<vector<ll>>;
 using vc = vector<char>;
 using vvc = vector<vc>;
 using ui = uint32_t;

@@ -48,7 +48,7 @@ void expect_value(ll got, i128 expected) {
     }
 }
 
-void expect_queries(Cht &hull, const std::vector<Line> &lines, const std::vector<int> &xs) {
+void expect_queries(CHT &hull, const std::vector<Line> &lines, const std::vector<int> &xs) {
     for (int x : xs) {
         expect_value(hull.get(x), minimum_at(lines, x));
     }
@@ -57,7 +57,7 @@ void expect_queries(Cht &hull, const std::vector<Line> &lines, const std::vector
 }  // namespace
 
 TEST(a_003_Struktury_dannyh_060_Convex_Hull_Trick, SingleLine) {
-    Cht hull;
+    CHT hull;
     hull.add({3, -4});
     for (int x : {-INF, -10, 0, 1, 10, INF}) {
         EXPECT_EQ(hull.get(x), 3LL * x - 4);
@@ -66,7 +66,7 @@ TEST(a_003_Struktury_dannyh_060_Convex_Hull_Trick, SingleLine) {
 }
 
 TEST(a_003_Struktury_dannyh_060_Convex_Hull_Trick, TwoLinesAndExactIntersection) {
-    Cht hull;
+    CHT hull;
     std::vector<Line> lines{{0, 0}, {-1, 10}};
     for (auto [k, b] : lines) {
         hull.add({k, b});
@@ -80,7 +80,7 @@ TEST(a_003_Struktury_dannyh_060_Convex_Hull_Trick, TwoLinesAndExactIntersection)
 }
 
 TEST(a_003_Struktury_dannyh_060_Convex_Hull_Trick, DominatedMiddleLineIsRemoved) {
-    Cht hull;
+    CHT hull;
     std::vector<Line> lines{{3, 0}, {1, 10}, {-1, 14}};
     for (auto [k, b] : lines) {
         hull.add({k, b});
@@ -95,7 +95,7 @@ TEST(a_003_Struktury_dannyh_060_Convex_Hull_Trick, DominatedMiddleLineIsRemoved)
 }
 
 TEST(a_003_Struktury_dannyh_060_Convex_Hull_Trick, FractionalCeilBoundary) {
-    Cht hull;
+    CHT hull;
     std::vector<Line> lines{{3, 0}, {1, 11}};
     for (auto [k, b] : lines) {
         hull.add({k, b});
@@ -106,7 +106,7 @@ TEST(a_003_Struktury_dannyh_060_Convex_Hull_Trick, FractionalCeilBoundary) {
 }
 
 TEST(a_003_Struktury_dannyh_060_Convex_Hull_Trick, NegativeIntersection) {
-    Cht hull;
+    CHT hull;
     std::vector<Line> lines{{0, 0}, {-3, -10}};
     for (auto [k, b] : lines) {
         hull.add({k, b});
@@ -117,7 +117,7 @@ TEST(a_003_Struktury_dannyh_060_Convex_Hull_Trick, NegativeIntersection) {
 }
 
 TEST(a_003_Struktury_dannyh_060_Convex_Hull_Trick, OrderedQueriesFollowIncreasingX) {
-    Cht hull;
+    CHT hull;
     std::vector<Line> lines{{5, 1}, {2, 20}, {0, 40}, {-4, 100}};
     for (auto [k, b] : lines) {
         hull.add({k, b});
@@ -135,7 +135,7 @@ TEST(a_003_Struktury_dannyh_060_Convex_Hull_Trick, RandomDecreasingSlopes) {
         int count = 1 + (int)(rng() % 25);
         ll slope = 1000 + (ll)(rng() % 1000);
         std::vector<Line> lines;
-        Cht hull;
+        CHT hull;
         for (int i = 0; i < count; ++i) {
             slope -= 1 + (ll)(rng() % 7);
             ll intercept = (ll)(rng() % 4001) - 2000;
@@ -145,7 +145,7 @@ TEST(a_003_Struktury_dannyh_060_Convex_Hull_Trick, RandomDecreasingSlopes) {
         for (int x = -30; x <= 30; ++x) {
             expect_value(hull.get(x), minimum_at(lines, x));
         }
-        Cht ordered;
+        CHT ordered;
         for (auto [k, b] : lines) {
             ordered.add({k, b});
         }
@@ -164,7 +164,7 @@ TEST(a_003_Struktury_dannyh_060_Convex_Hull_Trick, WideButFittingCoefficients) {
     std::mt19937 rng(6011);
     ll slope = 1000000;
     std::vector<Line> lines;
-    Cht hull;
+    CHT hull;
     for (int i = 0; i < 40; ++i) {
         slope -= 1000 + (ll)(rng() % 5000);
         ll intercept = (ll)(rng() % 2000001) - 1000000;
@@ -177,7 +177,7 @@ TEST(a_003_Struktury_dannyh_060_Convex_Hull_Trick, WideButFittingCoefficients) {
 }
 
 TEST(a_003_Struktury_dannyh_060_Convex_Hull_Trick, LineBetterFarLeftStillCorrectInsideSentinel) {
-    Cht hull;
+    CHT hull;
     std::vector<Line> lines{{0, 0}, {-1, -200000000000LL}};
     for (auto [k, b] : lines) {
         hull.add({k, b});
@@ -186,7 +186,7 @@ TEST(a_003_Struktury_dannyh_060_Convex_Hull_Trick, LineBetterFarLeftStillCorrect
 }
 
 TEST(a_003_Struktury_dannyh_060_Convex_Hull_Trick, IncreasingSlopesDoNotBuildLowerHull) {
-    Cht hull;
+    CHT hull;
     std::vector<Line> lines{{0, 0}, {1, -100}};
     for (auto [k, b] : lines) {
         hull.add({k, b});
@@ -195,7 +195,7 @@ TEST(a_003_Struktury_dannyh_060_Convex_Hull_Trick, IncreasingSlopesDoNotBuildLow
 }
 
 TEST(a_003_Struktury_dannyh_060_Convex_Hull_Trick, OrderedGetterDoesNotSearchBackward) {
-    Cht hull;
+    CHT hull;
     std::vector<Line> lines{{0, 0}, {-1, 10}, {-2, 30}};
     for (auto [k, b] : lines) {
         hull.add({k, b});
@@ -205,7 +205,7 @@ TEST(a_003_Struktury_dannyh_060_Convex_Hull_Trick, OrderedGetterDoesNotSearchBac
 }
 
 TEST(a_003_Struktury_dannyh_060_Convex_Hull_Trick, ProductOverflowsLongLong) {
-    Cht hull;
+    CHT hull;
     ll slope = 1LL << 40;
     int x = 1 << 30;
     hull.add({slope, 0});
@@ -215,7 +215,7 @@ TEST(a_003_Struktury_dannyh_060_Convex_Hull_Trick, ProductOverflowsLongLong) {
 TEST(a_003_Struktury_dannyh_060_Convex_Hull_Trick, IntersectionOverflowDropsBetterLine) {
     ll first = std::numeric_limits<ll>::max() - 10;
     ll second = std::numeric_limits<ll>::min() + 10;
-    Cht hull;
+    CHT hull;
     hull.add({5, first});
     hull.add({4, second});
     EXPECT_EQ(hull.get(0), second);
@@ -227,7 +227,7 @@ TEST(a_003_Struktury_dannyh_060_Convex_Hull_Trick, LoadManyLines) {
     ll slope = 500000;
     std::vector<Line> lines;
     lines.reserve(count);
-    Cht hull;
+    CHT hull;
     for (int i = 0; i < count; ++i) {
         slope -= 1 + (ll)(rng() % 3);
         ll intercept = (ll)((int)rng() % 2001 - 1000);
@@ -236,7 +236,7 @@ TEST(a_003_Struktury_dannyh_060_Convex_Hull_Trick, LoadManyLines) {
     }
     std::vector<int> xs{-INF, -1000, 0, 1, 10, 1000, INF};
     expect_queries(hull, lines, xs);
-    Cht ordered;
+    CHT ordered;
     for (auto [k, b] : lines) {
         ordered.add({k, b});
     }
@@ -247,7 +247,7 @@ TEST(a_003_Struktury_dannyh_060_Convex_Hull_Trick, LoadManyLines) {
 }
 
 TEST(a_003_Struktury_dannyh_060_Convex_Hull_Trick, ParallelSlopesDivideByZero) {
-    Cht hull;
+    CHT hull;
     hull.add({2, 5});
     hull.add({2, -1});
     EXPECT_EQ(hull.get(0), -1);
@@ -255,13 +255,13 @@ TEST(a_003_Struktury_dannyh_060_Convex_Hull_Trick, ParallelSlopesDivideByZero) {
 }
 
 TEST(a_003_Struktury_dannyh_060_Convex_Hull_Trick, QueryLeftOfMinusInf) {
-    Cht hull;
+    CHT hull;
     hull.add({0, 7});
     EXPECT_EQ(hull.get(-INF - 1), 7);
     EXPECT_EQ(hull.get(INT_MIN), 7);
 }
 
 TEST(a_003_Struktury_dannyh_060_Convex_Hull_Trick, EmptyHullGet) {
-    Cht hull;
+    CHT hull;
     EXPECT_EQ(hull.get(0), 0);
 }
